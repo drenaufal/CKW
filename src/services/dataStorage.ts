@@ -85,6 +85,17 @@ export interface ZohoIntegrationLog {
   responseCode?: number;
 }
 
+export interface MaintenanceConfig {
+  enabled: boolean;
+  title_id: string;
+  title_en: string;
+  message_id: string;
+  message_en: string;
+  estimatedEnd?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+}
+
 class DataStorageService {
   private prefix = "ckw_portal_v1_";
   private inMemoryCache: Record<string, any> = {};
@@ -133,4 +144,3 @@ class DataStorageService {
 }
 
 export const dataStorage = new DataStorageService();
-

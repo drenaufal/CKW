@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { dataStorage, ProductItem, InquiryItem, AuditLog, ZohoIntegrationLog } from "@/services/dataStorage";
+import { dataStorage, ProductItem, InquiryItem, AuditLog, ZohoIntegrationLog, MaintenanceConfig } from "@/services/dataStorage";
 
 interface AdminUser {
   name: string;
@@ -22,9 +22,23 @@ interface AppContextType {
   currentUser: AdminUser | null;
   setCurrentUser: (user: AdminUser | null) => void;
   addInquiry: (inquiry: Omit<InquiryItem, 'id' | 'inquiryCode' | 'createdAt' | 'status' | 'zohoSynced'>) => Promise<string>;
+  maintenanceConfig: MaintenanceConfig;
+  setMaintenanceConfig: (config: MaintenanceConfig) => void;
+  toggleMaintenanceMode: (enabled?: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
+
+const defaultMaintenanceConfig: MaintenanceConfig = {
+  enabled: false,
+  title_id: "Sistem Sedang Dalam Pemeliharaan Berkala",
+  title_en: "System Under Scheduled Maintenance",
+  message_id: "Kami sedang melakukan peningkatan infrastruktur dan pemeliharaan sistem terpadu PT. Cempaga Karya Wijaya untuk meningkatkan performa dan layanan. Seluruh layanan publik akan segera kembali aktif.",
+  message_en: "We are currently conducting scheduled infrastructure upgrades and system improvements for PT. Cempaga Karya Wijaya corporate portal. All public services will resume shortly.",
+  estimatedEnd: "± 1 - 2 Jam / In a few hours",
+  contactEmail: "cempagakaryawijaya@gmail.com",
+  contactPhone: "+62 823 1516 1767",
+};
 
 const defaultProducts: ProductItem[] = [
   {
@@ -193,6 +207,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [auditLogs, setAuditLogsState] = useState<AuditLog[]>([]);
   const [zohoLogs, setZohoLogsState] = useState<ZohoIntegrationLog[]>([]);
   const [currentUser, setCurrentUserState] = useState<AdminUser | null>(null);
+  const [maintenanceConfig, setMaintenanceConfigState] = useState<MaintenanceConfig>(defaultMaintenanceConfig);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -202,6 +217,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const savedLogs = dataStorage.loadFromStorage("auditLogs", []);
     const savedZohoLogs = dataStorage.loadFromStorage("zohoLogs", []);
     const savedUser = dataStorage.loadFromStorage("currentUser", null);
+    const savedMaintenance = dataStorage.loadFromStorage("maintenanceConfig", defaultMaintenanceConfig);
 
     setLocaleState(savedLocale);
     setProductsState(savedProducts.length > 0 ? savedProducts : defaultProducts);
@@ -209,7 +225,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setAuditLogsState(savedLogs);
     setZohoLogsState(savedZohoLogs);
     setCurrentUserState(savedUser);
+    setMaintenanceConfigState(savedMaintenance || defaultMaintenanceConfig);
     setIsLoaded(true);
+
+    // Sync with backend API if available
+    fetch('/api/settings/maintenance')
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data && typeof res.data.enabled === 'boolean') {
+          setMaintenanceConfigState((prev) => ({ ...prev, ...res.data }));
+          dataStorage.saveToStorage("maintenanceConfig", { ...(savedMaintenance || defaultMaintenanceConfig), ...res.data });
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const setLocale = (newLocale: "id" | "en") => {
@@ -244,6 +272,41 @@ export function AppProvider({ children }: { children: ReactNode }) {
     } else {
       dataStorage.removeFromStorage("currentUser");
     }
+  };
+
+  const setMaintenanceConfig = (config: MaintenanceConfig) => {
+    setMaintenanceConfigState(config);
+    dataStorage.saveToStorage("maintenanceConfig", config);
+    try {
+      fetch('/api/settings/maintenance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(config),
+      }).catch(() => {});
+    } catch (e) {}
+  };
+
+  const toggleMaintenanceMode = (targetState?: boolean) => {
+    const nextState = typeof targetState === 'boolean' ? targetState : !maintenanceConfig.enabled;
+    const updated: MaintenanceConfig = {
+      ...maintenanceConfig,
+      enabled: nextState,
+    };
+
+    setMaintenanceConfig(updated);
+
+    // Record audit log entry
+    const log: AuditLog = {
+      id: `log-${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      actor: currentUser?.name || 'Administrator',
+      action: nextState ? 'ENABLE_MAINTENANCE' : 'DISABLE_MAINTENANCE',
+      entityType: 'SYSTEM_SETTINGS',
+      details: nextState
+        ? 'Mode Pemeliharaan (Maintenance Mode) berhasil DIAKTIFKAN'
+        : 'Mode Pemeliharaan (Maintenance Mode) berhasil DINONAKTIFKAN',
+    };
+    setAuditLogs([log, ...auditLogs]);
   };
 
   const addInquiry = async (
@@ -316,6 +379,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         currentUser,
         setCurrentUser,
         addInquiry,
+        maintenanceConfig,
+        setMaintenanceConfig,
+        toggleMaintenanceMode,
       }}
     >
       {children}
@@ -330,4 +396,3 @@ export function useAppContext() {
   }
   return context;
 }
-

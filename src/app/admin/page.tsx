@@ -1,15 +1,28 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '@/context/AppContext';
 import { 
   Shield, LayoutDashboard, Package, MailOpen, Activity, 
-  Settings, LogOut, CheckCircle, Plus, Edit, Trash2, Globe, Send, Bell
+  Settings, LogOut, CheckCircle, Plus, Edit, Trash2, Globe, Send, Bell,
+  Wrench, AlertTriangle, Power, Save, ExternalLink, RefreshCw
 } from 'lucide-react';
 import { ProductItem } from '@/services/dataStorage';
 
 export default function AdminPage() {
-  const { inquiries, products, setProducts, currentUser, setCurrentUser, auditLogs, zohoLogs } = useAppContext();
+  const { 
+    inquiries, 
+    products, 
+    setProducts, 
+    currentUser, 
+    setCurrentUser, 
+    auditLogs, 
+    zohoLogs,
+    maintenanceConfig,
+    setMaintenanceConfig,
+    toggleMaintenanceMode
+  } = useAppContext();
+
   const [activeTab, setActiveTab] = useState('dashboard');
   
   // Login State
@@ -19,6 +32,31 @@ export default function AdminPage() {
 
   // Toast
   const [toastMessage, setToastMessage] = useState('');
+
+  // Maintenance form state
+  const [maintForm, setMaintForm] = useState({
+    title_id: maintenanceConfig?.title_id || '',
+    title_en: maintenanceConfig?.title_en || '',
+    message_id: maintenanceConfig?.message_id || '',
+    message_en: maintenanceConfig?.message_en || '',
+    estimatedEnd: maintenanceConfig?.estimatedEnd || '',
+    contactEmail: maintenanceConfig?.contactEmail || '',
+    contactPhone: maintenanceConfig?.contactPhone || '',
+  });
+
+  useEffect(() => {
+    if (maintenanceConfig) {
+      setMaintForm({
+        title_id: maintenanceConfig.title_id || '',
+        title_en: maintenanceConfig.title_en || '',
+        message_id: maintenanceConfig.message_id || '',
+        message_en: maintenanceConfig.message_en || '',
+        estimatedEnd: maintenanceConfig.estimatedEnd || '',
+        contactEmail: maintenanceConfig.contactEmail || '',
+        contactPhone: maintenanceConfig.contactPhone || '',
+      });
+    }
+  }, [maintenanceConfig]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -49,6 +87,25 @@ export default function AdminPage() {
     });
     setProducts(updated);
     showToast('Status produk berhasil diperbarui');
+  };
+
+  const handleToggleMaintenance = () => {
+    const target = !maintenanceConfig.enabled;
+    toggleMaintenanceMode(target);
+    showToast(
+      target 
+        ? 'Mode Pemeliharaan DIAKTIFKAN. Halaman publik kini menampilkan pesan maintenance.' 
+        : 'Mode Pemeliharaan DINONAKTIFKAN. Website kini kembali live untuk publik.'
+    );
+  };
+
+  const handleSaveMaintenanceConfig = (e: React.FormEvent) => {
+    e.preventDefault();
+    setMaintenanceConfig({
+      ...maintenanceConfig,
+      ...maintForm,
+    });
+    showToast('Pengaturan pesan Mode Pemeliharaan berhasil disimpan');
   };
 
   if (!currentUser) {
@@ -115,6 +172,7 @@ export default function AdminPage() {
 
   const tabs = [
     { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard Utama' },
+    { id: 'maintenance', icon: Wrench, label: 'Mode Pemeliharaan' },
     { id: 'inquiries', icon: MailOpen, label: 'Inquiry RFQ & Leads' },
     { id: 'products', icon: Package, label: 'Katalog Produk' },
     { id: 'zoho', icon: Send, label: 'Integrasi Zoho' },
@@ -127,7 +185,7 @@ export default function AdminPage() {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed top-6 right-6 z-50 bg-brand-navy-950 text-white px-5 py-3 rounded-xl shadow-2xl border border-brand-gold-500/50 flex items-center gap-3 text-xs animate-in slide-in-from-top-4">
-          <CheckCircle size={16} className="text-brand-gold-400" />
+          <CheckCircle size={16} className="text-brand-gold-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -149,14 +207,19 @@ export default function AdminPage() {
             <button 
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-xs font-semibold transition-all ${
+              className={`flex items-center justify-between w-full px-4 py-3 rounded-xl text-xs font-semibold transition-all ${
                 activeTab === tab.id 
                   ? 'bg-brand-navy-900 border-l-4 border-brand-gold-500 text-white shadow-inner' 
                   : 'text-neutral-400 hover:bg-brand-navy-900/60 hover:text-white border-l-4 border-transparent'
               }`}
             >
-              <tab.icon size={16} className={activeTab === tab.id ? 'text-brand-gold-400' : 'text-neutral-400'} />
-              <span>{tab.label}</span>
+              <div className="flex items-center gap-3">
+                <tab.icon size={16} className={activeTab === tab.id ? 'text-brand-gold-400' : 'text-neutral-400'} />
+                <span>{tab.label}</span>
+              </div>
+              {tab.id === 'maintenance' && maintenanceConfig?.enabled && (
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              )}
             </button>
           ))}
         </div>
@@ -178,6 +241,25 @@ export default function AdminPage() {
 
       {/* Main Area */}
       <main className="flex-1 flex flex-col h-screen overflow-y-auto">
+        
+        {/* Top Persistent Warning If Maintenance Mode is Active */}
+        {maintenanceConfig?.enabled && (
+          <div className="bg-amber-500 text-brand-navy-950 px-8 py-2.5 flex items-center justify-between text-xs font-bold shadow-sm shrink-0">
+            <div className="flex items-center gap-2">
+              <AlertTriangle size={16} />
+              <span>
+                PERHATIAN: Mode Pemeliharaan (Maintenance Mode) sedang AKTIF. Pengunjung umum tidak dapat mengakses website.
+              </span>
+            </div>
+            <button 
+              onClick={handleToggleMaintenance}
+              className="px-3 py-1 bg-brand-navy-950 text-white rounded-lg hover:bg-brand-navy-900 transition-colors font-semibold"
+            >
+              Nonaktifkan Sekarang
+            </button>
+          </div>
+        )}
+
         <header className="h-16 bg-white border-b border-neutral-200 flex items-center justify-between px-8 shrink-0">
           <div className="flex items-center gap-3">
             <span className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">CMS Panel /</span>
@@ -199,6 +281,66 @@ export default function AdminPage() {
           {/* TAB: DASHBOARD */}
           {activeTab === 'dashboard' && (
             <div className="space-y-8">
+              
+              {/* Maintenance Mode Hero Card on Dashboard */}
+              <div className={`p-6 rounded-2xl border transition-all ${
+                maintenanceConfig?.enabled
+                  ? 'bg-amber-500/10 border-amber-300'
+                  : 'bg-white border-neutral-200 shadow-sm'
+              }`}>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div className="flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
+                      maintenanceConfig?.enabled 
+                        ? 'bg-amber-500 text-brand-navy-950 shadow-md' 
+                        : 'bg-green-100 text-green-700'
+                    }`}>
+                      <Wrench size={24} />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-display font-bold text-lg text-brand-navy-950">
+                          Status Portal & Mode Pemeliharaan
+                        </span>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                          maintenanceConfig?.enabled 
+                            ? 'bg-amber-500 text-brand-navy-950' 
+                            : 'bg-green-100 text-green-800'
+                        }`}>
+                          {maintenanceConfig?.enabled ? 'Maintenance ON' : 'Website Live'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-neutral-600 max-w-xl leading-relaxed">
+                        {maintenanceConfig?.enabled
+                          ? 'Mode Pemeliharaan sedang aktif. Semua pengunjung diarahkan ke halaman pemeliharaan resmi dengan kontak darurat, sementara Anda tetap dapat mengelola CMS.'
+                          : 'Website sedang aktif normal (Live). Pengunjung umum dapat menjelajahi seluruh halaman produk, spesifikasi lab, dan mengirim RFQ.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setActiveTab('maintenance')}
+                      className="px-4 py-2.5 rounded-xl border border-neutral-300 hover:bg-neutral-100 text-xs font-semibold text-neutral-700 transition-colors"
+                    >
+                      Konfigurasi Pesan
+                    </button>
+                    <button
+                      onClick={handleToggleMaintenance}
+                      className={`px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all shadow-md ${
+                        maintenanceConfig?.enabled
+                          ? 'bg-green-600 hover:bg-green-500 text-white'
+                          : 'bg-amber-500 hover:bg-amber-400 text-brand-navy-950'
+                      }`}
+                    >
+                      <Power size={15} />
+                      <span>{maintenanceConfig?.enabled ? 'Buka Website (Disable)' : 'Aktifkan Mode Maintenance'}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Statistics Metrics */}
               <div className="grid md:grid-cols-4 gap-6">
                 <div className="bg-white p-6 rounded-2xl border border-neutral-200 shadow-sm">
                   <div className="w-10 h-10 bg-blue-50 text-brand-blue-600 rounded-xl flex items-center justify-center mb-3">
@@ -262,6 +404,206 @@ export default function AdminPage() {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* TAB: MAINTENANCE MODE */}
+          {activeTab === 'maintenance' && (
+            <div className="space-y-8 max-w-4xl">
+              
+              {/* Master Switch Banner */}
+              <div className={`p-8 rounded-3xl border transition-all ${
+                maintenanceConfig?.enabled 
+                  ? 'bg-amber-500/15 border-amber-300' 
+                  : 'bg-white border-neutral-200 shadow-sm'
+              }`}>
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div className="flex items-start gap-4">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${
+                      maintenanceConfig?.enabled 
+                        ? 'bg-amber-500 text-brand-navy-950 shadow-lg' 
+                        : 'bg-neutral-100 text-neutral-700'
+                    }`}>
+                      <Wrench size={28} />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-3 mb-1">
+                        <h2 className="font-display font-bold text-xl text-brand-navy-950">
+                          Saklar Utama Mode Pemeliharaan (Master Switch)
+                        </h2>
+                        <span className={`px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider ${
+                          maintenanceConfig?.enabled 
+                            ? 'bg-amber-500 text-brand-navy-950' 
+                            : 'bg-neutral-200 text-neutral-700'
+                        }`}>
+                          {maintenanceConfig?.enabled ? 'AKTIF (ON)' : 'TIDAK AKTIF (OFF)'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-neutral-600 leading-relaxed max-w-xl">
+                        Saat mode pemeliharaan diaktifkan, seluruh rute publik akan secara otomatis menampilkan halaman pemeliharaan. Anda dan tim internal tetap memiliki akses penuh ke Admin Panel ini untuk melakukan perubahan.
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleToggleMaintenance}
+                    className={`px-6 py-3.5 rounded-2xl font-bold text-xs flex items-center gap-2 transition-all shadow-md shrink-0 ${
+                      maintenanceConfig?.enabled 
+                        ? 'bg-green-600 hover:bg-green-500 text-white' 
+                        : 'bg-amber-500 hover:bg-amber-400 text-brand-navy-950'
+                    }`}
+                  >
+                    <Power size={18} />
+                    <span>{maintenanceConfig?.enabled ? 'Buka Website Kembali' : 'Aktifkan Mode Maintenance'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Maintenance Copy & Details Form */}
+              <div className="bg-white rounded-3xl border border-neutral-200 shadow-sm p-8">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-neutral-100">
+                  <div>
+                    <h3 className="font-display font-bold text-lg text-brand-navy-950">
+                      Konfigurasi Informasi & Pesan Pemeliharaan
+                    </h3>
+                    <p className="text-xs text-neutral-500 mt-1">
+                      Kustomisasi teks pengumuman, estimasi waktu selesai, dan kontak darurat untuk pengunjung.
+                    </p>
+                  </div>
+                  <a
+                    href="/"
+                    target="_blank"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-semibold text-neutral-700 transition-colors"
+                  >
+                    <ExternalLink size={14} />
+                    <span>Lihat Halaman Publik</span>
+                  </a>
+                </div>
+
+                <form onSubmit={handleSaveMaintenanceConfig} className="space-y-6">
+                  
+                  {/* Title ID & EN */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+                        Judul Pemeliharaan (Bahasa Indonesia) *
+                      </label>
+                      <input 
+                        type="text" 
+                        required
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none text-xs" 
+                        value={maintForm.title_id} 
+                        onChange={e => setMaintForm({...maintForm, title_id: e.target.value})} 
+                        placeholder="Sistem Sedang Dalam Pemeliharaan Berkala"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+                        Maintenance Title (English) *
+                      </label>
+                      <input 
+                        type="text" 
+                        required
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none text-xs" 
+                        value={maintForm.title_en} 
+                        onChange={e => setMaintForm({...maintForm, title_en: e.target.value})} 
+                        placeholder="System Under Scheduled Maintenance"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Message ID & EN */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+                        Pesan Penjelasan (Bahasa Indonesia) *
+                      </label>
+                      <textarea 
+                        rows={4}
+                        required
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none text-xs resize-none" 
+                        value={maintForm.message_id} 
+                        onChange={e => setMaintForm({...maintForm, message_id: e.target.value})} 
+                        placeholder="Deskripsikan alasan pemeliharaan untuk pengunjung..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+                        Explanation Message (English) *
+                      </label>
+                      <textarea 
+                        rows={4}
+                        required
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none text-xs resize-none" 
+                        value={maintForm.message_en} 
+                        onChange={e => setMaintForm({...maintForm, message_en: e.target.value})} 
+                        placeholder="Describe the maintenance context for international clients..."
+                      />
+                    </div>
+                  </div>
+
+                  {/* Estimation & Contacts */}
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+                        Estimasi Waktu Selesai
+                      </label>
+                      <input 
+                        type="text" 
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none text-xs" 
+                        value={maintForm.estimatedEnd} 
+                        onChange={e => setMaintForm({...maintForm, estimatedEnd: e.target.value})} 
+                        placeholder="e.g. ± 1 - 2 Jam / Pukul 15:00 WIB"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+                        Email Kontak Darurat
+                      </label>
+                      <input 
+                        type="email" 
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none text-xs" 
+                        value={maintForm.contactEmail} 
+                        onChange={e => setMaintForm({...maintForm, contactEmail: e.target.value})} 
+                        placeholder="cempagakaryawijaya@gmail.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+                        WhatsApp Sales Darurat
+                      </label>
+                      <input 
+                        type="text" 
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none text-xs" 
+                        value={maintForm.contactPhone} 
+                        onChange={e => setMaintForm({...maintForm, contactPhone: e.target.value})} 
+                        placeholder="+62 823 1516 1767"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-4 flex items-center justify-end gap-3 border-t border-neutral-100">
+                    <button
+                      type="submit"
+                      className="px-6 py-3 rounded-xl bg-brand-navy-950 hover:bg-brand-navy-900 text-white font-bold text-xs flex items-center gap-2 shadow-md transition-colors"
+                    >
+                      <Save size={16} />
+                      <span>Simpan Perubahan Pesan</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Informational Guidelines Card */}
+              <div className="bg-brand-navy-50 border border-brand-navy-100 p-6 rounded-2xl text-xs text-brand-navy-950 space-y-2">
+                <span className="font-bold block text-sm">💡 Catatan Operasional:</span>
+                <ul className="list-disc list-inside space-y-1 text-neutral-700">
+                  <li>Mode pemeliharaan dapat diaktifkan dan dinonaktifkan kapan saja tanpa perlu me-restart server.</li>
+                  <li>Perubahan status pemeliharaan dicatat secara otomatis ke dalam <strong>Audit Trail Logs</strong> untuk keamanan.</li>
+                  <li>Admin yang sedang login dapat tetap meninjau halaman website secara langsung dengan banner peringatan di bagian atas layar.</li>
+                </ul>
+              </div>
+
             </div>
           )}
 
@@ -498,4 +840,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
