@@ -350,13 +350,13 @@ export default function MaintenanceScreen({ onEnablePreview }: MaintenanceScreen
         </div>
 
         <div className="flex items-center gap-4">
-          <Link 
+          {/* <Link 
             href="/admin" 
             className="text-neutral-400 hover:text-brand-gold-400 transition-colors flex items-center gap-1 font-semibold"
           >
             <span>Login Panel Admin (CMS)</span>
             <ArrowRight size={12} />
-          </Link>
+          </Link> */}
         </div>
       </footer>
 
