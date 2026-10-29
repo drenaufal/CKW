@@ -1,9 +1,11 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import { dataStorage, ProductItem, InquiryItem, AuditLog, ZohoIntegrationLog, MaintenanceConfig } from "@/services/dataStorage";
 
-interface AdminUser {
+export interface AdminUser {
+  id?: number | string;
+  username?: string;
   name: string;
   role: 'superadmin' | 'editor';
 }
@@ -21,21 +23,27 @@ interface AppContextType {
   setZohoLogs: (logs: ZohoIntegrationLog[]) => void;
   currentUser: AdminUser | null;
   setCurrentUser: (user: AdminUser | null) => void;
+  login: (username: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  logout: () => Promise<void>;
   addInquiry: (inquiry: Omit<InquiryItem, 'id' | 'inquiryCode' | 'createdAt' | 'status' | 'zohoSynced'>) => Promise<string>;
+  updateInquiryStatus: (id: number | string, status: InquiryItem['status'], notes?: string) => Promise<boolean>;
   maintenanceConfig: MaintenanceConfig;
-  setMaintenanceConfig: (config: MaintenanceConfig) => void;
-  toggleMaintenanceMode: (enabled?: boolean) => void;
+  setMaintenanceConfig: (config: MaintenanceConfig) => Promise<boolean>;
+  toggleMaintenanceMode: (enabled?: boolean) => Promise<boolean>;
+  refreshInquiries: () => Promise<void>;
+  refreshProducts: () => Promise<void>;
+  refreshAuditLogs: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const defaultMaintenanceConfig: MaintenanceConfig = {
   enabled: false,
-  title_id: "Sistem Sedang Dalam Pemeliharaan Berkala",
-  title_en: "System Under Scheduled Maintenance",
-  message_id: "Kami sedang melakukan peningkatan infrastruktur dan pemeliharaan sistem terpadu PT. Cempaga Karya Wijaya untuk meningkatkan performa dan layanan. Seluruh layanan publik akan segera kembali aktif.",
-  message_en: "We are currently conducting scheduled infrastructure upgrades and system improvements for PT. Cempaga Karya Wijaya corporate portal. All public services will resume shortly.",
-  estimatedEnd: "± 1 - 2 Jam / In a few hours",
+  title_id: "Portal Resmi Sedang Dalam Pemeliharaan Sistem",
+  title_en: "Official Portal Under Scheduled Maintenance",
+  message_id: "Kami sedang melakukan pemeliharaan infrastruktur digital terpadu dan sinkronisasi sistem katalog spesifikasi pasir silika PT. Cempaga Karya Wijaya untuk meningkatkan performa layanan. Untuk sementara, halaman informasi publik dinonaktifkan hingga proses pemeliharaan selesai.",
+  message_en: "We are currently conducting scheduled infrastructure upgrades and system catalog optimizations for PT. Cempaga Karya Wijaya corporate portal. Public browsing is temporarily suspended while upgrades are finalized.",
+  estimatedEnd: "± 1 - 2 Jam",
   contactEmail: "cempagakaryawijaya@gmail.com",
   contactPhone: "+62 823 1516 1767",
 };
@@ -100,103 +108,48 @@ const defaultProducts: ProductItem[] = [
     sortOrder: 2,
     assaySiO2: "99.58%",
     assayFe2O3: "0.008%",
-    assayAl2O3: "0.11%",
-    assayTiO2: "0.009%",
+    assayAl2O3: "0.10%",
+    assayTiO2: "0.008%",
     assayLOI: "0.08%",
     afsFineness: "50-55",
     mohsHardness: "7.0",
     specificGravity: "2.65 g/cm³",
-    bulkDensity: "1.58 MT/m³",
+    bulkDensity: "1.52 - 1.58 MT/m³",
     phValue: "7.0",
   },
   {
     id: 3,
-    name_id: "Pasir Silika Pengecoran Logam (Foundry)",
-    name_en: "Foundry & Casting Silica Sand",
-    slug: "foundry-silica",
-    shortDescription_id: "Sifat refraktori tinggi dan ketahanan panas ekstrem untuk cetakan cor besi dan baja.",
-    shortDescription_en: "High refractory properties and heat resistance for iron and steel foundry casting cores.",
-    description_id: "Partikel sub-angular hingga rounded dengan distribusi AFS terstandarisasi untuk permeabilitas gas tinggi saat penuangan logam cair.",
-    description_en: "Sub-angular to rounded grains with controlled AFS fineness providing superior permeability and thermal shock resistance during molten metal casting.",
-    chemicalComposition_id: "SiO2 ≥ 98.8%, Fe2O3 ≤ 0.15%, Al2O3 ≤ 0.50%, CaO ≤ 0.10%",
-    chemicalComposition_en: "SiO2 ≥ 98.8%, Fe2O3 ≤ 0.15%, Al2O3 ≤ 0.50%, CaO ≤ 0.10%",
-    particleSize_id: "AFS 45 - 55, Mesh 30 - 70",
-    particleSize_en: "AFS 45 - 55, Mesh 30 - 70",
-    moistureContent_id: "≤ 0.2%",
-    moistureContent_en: "≤ 0.2%",
-    cleanliness_id: "Kandungan lempung AFS < 0.3%",
-    cleanliness_en: "AFS clay content < 0.3%",
-    packagingRequirement_id: "Jumbo Bag 1.0 - 1.25 MT / Sak 50 kg",
-    packagingRequirement_en: "Jumbo Bag 1.0 - 1.25 MT / 50 kg Bags",
-    imageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2070",
+    name_id: "Pasir Silika Pengecoran Logam (Foundry Grade)",
+    name_en: "High Refractory Foundry Silica Sand",
+    slug: "foundry-silica-sand",
+    shortDescription_id: "Ketahanan panas tinggi (titik lebur > 1.700°C) dengan distribusi butir AFS terkontrol ketat untuk cetakan logam.",
+    shortDescription_en: "High refractoriness (fusion point > 1,700°C) with strictly controlled AFS grain distribution for metal casting molds.",
+    description_id: "Dirancang untuk industri pengecoran besi, baja, dan paduan non-ferrous dengan daya alir (*flowability*) dan permeabilitas gas optimal.",
+    description_en: "Engineered for iron, steel, and non-ferrous foundries providing optimal flowability and gas permeability.",
+    chemicalComposition_id: "SiO2 ≥ 99.0%, Fe2O3 ≤ 0.10%, Al2O3 ≤ 0.40%, CaO ≤ 0.05%",
+    chemicalComposition_en: "SiO2 ≥ 99.0%, Fe2O3 ≤ 0.10%, Al2O3 ≤ 0.40%, CaO ≤ 0.05%",
+    particleSize_id: "AFS 45 - 55 / Mesh 40 - 100",
+    particleSize_en: "AFS 45 - 55 / Mesh 40 - 100",
+    moistureContent_id: "≤ 0.1% (Kiln Dried)",
+    moistureContent_en: "≤ 0.1% (Kiln Dried)",
+    cleanliness_id: "Kadar lempung (Clay content) < 0.2%",
+    cleanliness_en: "Clay content < 0.2%",
+    packagingRequirement_id: "Jumbo Bag 1.0 MT atau Curah Truk",
+    packagingRequirement_en: "Jumbo Bag 1.0 MT or Bulk Truck",
+    imageUrl: "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?q=80&w=2070",
     status: "published",
     featured: true,
     sortOrder: 3,
-    assaySiO2: "99.10%",
-    assayFe2O3: "0.08%",
-    assayAl2O3: "0.35%",
-    assayTiO2: "0.03%",
-    assayLOI: "0.18%",
-    afsFineness: "50",
+    assaySiO2: "99.20%",
+    assayFe2O3: "0.045%",
+    assayAl2O3: "0.32%",
+    assayTiO2: "0.02%",
+    assayLOI: "0.12%",
+    afsFineness: "50-52",
     mohsHardness: "7.0",
     specificGravity: "2.65 g/cm³",
-    bulkDensity: "1.62 MT/m³",
+    bulkDensity: "1.58 MT/m³",
     phValue: "7.1",
-  },
-  {
-    id: 4,
-    name_id: "Pasir Silika Media Filtrasi Air",
-    name_en: "Water Filtration Silica Media",
-    slug: "filtration-silica",
-    shortDescription_id: "Media filter multi-layer dengan koefisien keseragaman tinggi untuk instalasi air bersih dan PDAM.",
-    shortDescription_en: "High-uniformity multi-layer filtration media for municipal water works and industrial filtration.",
-    description_id: "Memenuhi standar SNI dan AWWA B100 untuk media filter air. Mengurangi kekeruhan (turbidity) dan padatan tersuspensi secara optimal.",
-    description_en: "Meets SNI and AWWA B100 standards for water filtering sands. Effectively traps suspended solids and particulates in gravity or pressure filters.",
-    chemicalComposition_id: "SiO2 ≥ 98.5%, Asam Kelarutan (Acid Solubility) < 1.5%",
-    chemicalComposition_en: "SiO2 ≥ 98.5%, Acid Solubility < 1.5%",
-    particleSize_id: "Ukuran Efektif (ES) 0.5 - 1.2 mm, UC ≤ 1.4",
-    particleSize_en: "Effective Size (ES) 0.5 - 1.2 mm, UC ≤ 1.4",
-    moistureContent_id: "≤ 0.5%",
-    moistureContent_en: "≤ 0.5%",
-    cleanliness_id: "Bebas bahan organik dan lumut",
-    cleanliness_en: "Free of organic matter and biological growth",
-    packagingRequirement_id: "Sak 25 kg / Sak 50 kg / Jumbo Bag 1.0 MT",
-    packagingRequirement_en: "25 kg Bag / 50 kg Bag / 1.0 MT Jumbo Bag",
-    imageUrl: "https://images.unsplash.com/photo-1583324113626-70df0f4deaab?q=80&w=2070",
-    status: "published",
-    featured: false,
-    sortOrder: 4,
-    assaySiO2: "99.05%",
-    assayFe2O3: "0.06%",
-    assayAl2O3: "0.28%",
-    assayTiO2: "0.02%",
-    assayLOI: "0.15%",
-  },
-  {
-    id: 5,
-    name_id: "Pasir Silika Konstruksi & Mortar Khusus",
-    name_en: "Construction & Specialty Mortar Sand",
-    slug: "construction-mortar-silica",
-    shortDescription_id: "Gradasi presisi untuk campuran beton mutu tinggi, dry-mix mortar, dan perekat keramik.",
-    shortDescription_en: "Precision graded sand for high-strength concrete, dry-mix mortar, and tile adhesives.",
-    description_id: "Telah dikeringkan dan diayak sesuai fraksi terukur untuk memastikan daya rekat serta kekuatan tekan maksimal pada formulasi semen instan.",
-    description_en: "Kiln-dried and accurately sized into defined cut-points to guarantee optimal tensile bond strength and workability in dry chemical admixtures.",
-    chemicalComposition_id: "SiO2 ≥ 98.0%, Fe2O3 ≤ 0.30%",
-    chemicalComposition_en: "SiO2 ≥ 98.0%, Fe2O3 ≤ 0.30%",
-    particleSize_id: "Fraksi 0.1 - 0.4 mm & 0.3 - 0.8 mm",
-    particleSize_en: "Fractions 0.1 - 0.4 mm & 0.3 - 0.8 mm",
-    moistureContent_id: "≤ 0.2%",
-    moistureContent_en: "≤ 0.2%",
-    cleanliness_id: "Bebas lempung / silt < 0.5%",
-    cleanliness_en: "Clay / silt free < 0.5%",
-    packagingRequirement_id: "Jumbo Bag 1.0 MT atau Curah Truk",
-    packagingRequirement_en: "1.0 MT Jumbo Bag or Bulk Dump Truck",
-    imageUrl: "https://images.unsplash.com/photo-1541888087455-236b280327f5?q=80&w=2070",
-    status: "published",
-    featured: false,
-    sortOrder: 5,
-    assaySiO2: "98.90%",
-    assayFe2O3: "0.12%",
   }
 ];
 
@@ -210,35 +163,87 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [maintenanceConfig, setMaintenanceConfigState] = useState<MaintenanceConfig>(defaultMaintenanceConfig);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // 1. Initial Load: Ambil preferensi non-sensitif dari localStorage & sinkronkan data server
   useEffect(() => {
+    // Bersihkan sesi client-side lama agar kebal dari manipulasi localStorage F12
+    dataStorage.removeFromStorage("currentUser");
+
+    // Load preferensi bahasa dari localStorage (Aman & Sesuai Best Practice)
     const savedLocale = dataStorage.loadFromStorage("locale", "id");
-    const savedProducts = dataStorage.loadFromStorage("products", defaultProducts);
-    const savedInquiries = dataStorage.loadFromStorage("inquiries", []);
-    const savedLogs = dataStorage.loadFromStorage("auditLogs", []);
-    const savedZohoLogs = dataStorage.loadFromStorage("zohoLogs", []);
-    const savedUser = dataStorage.loadFromStorage("currentUser", null);
-    const savedMaintenance = dataStorage.loadFromStorage("maintenanceConfig", defaultMaintenanceConfig);
-
     setLocaleState(savedLocale);
-    setProductsState(savedProducts.length > 0 ? savedProducts : defaultProducts);
-    setInquiriesState(savedInquiries);
-    setAuditLogsState(savedLogs);
-    setZohoLogsState(savedZohoLogs);
-    setCurrentUserState(savedUser);
-    setMaintenanceConfigState(savedMaintenance || defaultMaintenanceConfig);
-    setIsLoaded(true);
 
-    // Sync with backend API if available
+    // Verifikasi sesi Admin via HttpOnly Cookie ke Server
+    fetch('/api/auth/me')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated && data.user) {
+          setCurrentUserState(data.user);
+        } else {
+          setCurrentUserState(null);
+        }
+      })
+      .catch(() => setCurrentUserState(null));
+
+    // Sinkronkan status maintenance dari Server / MySQL
     fetch('/api/settings/maintenance')
       .then((res) => res.json())
       .then((res) => {
         if (res.success && res.data && typeof res.data.enabled === 'boolean') {
           setMaintenanceConfigState((prev) => ({ ...prev, ...res.data }));
-          dataStorage.saveToStorage("maintenanceConfig", { ...(savedMaintenance || defaultMaintenanceConfig), ...res.data });
         }
       })
       .catch(() => {});
+
+    // Sinkronkan katalog produk dari Server / MySQL
+    fetch('/api/products')
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && Array.isArray(res.products) && res.products.length > 0) {
+          setProductsState(res.products);
+        }
+      })
+      .catch(() => {});
+
+    setIsLoaded(true);
   }, []);
+
+  // 2. Jika Admin sedang terautentikasi, sinkronkan data Inquiry & Audit Logs dari Server
+  const refreshInquiries = useCallback(async () => {
+    try {
+      const res = await fetch('/api/inquiry');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.inquiries)) {
+        setInquiriesState(data.inquiries);
+      }
+    } catch {}
+  }, []);
+
+  const refreshAuditLogs = useCallback(async () => {
+    try {
+      const res = await fetch('/api/audit-logs');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.logs)) {
+        setAuditLogsState(data.logs);
+      }
+    } catch {}
+  }, []);
+
+  const refreshProducts = useCallback(async () => {
+    try {
+      const res = await fetch('/api/products');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.products)) {
+        setProductsState(data.products);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      refreshInquiries();
+      refreshAuditLogs();
+    }
+  }, [currentUser, refreshInquiries, refreshAuditLogs]);
 
   const setLocale = (newLocale: "id" | "en") => {
     setLocaleState(newLocale);
@@ -247,68 +252,83 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const setProducts = (newProducts: ProductItem[]) => {
     setProductsState(newProducts);
-    dataStorage.saveToStorage("products", newProducts);
   };
 
   const setInquiries = (newInquiries: InquiryItem[]) => {
     setInquiriesState(newInquiries);
-    dataStorage.saveToStorage("inquiries", newInquiries);
   };
 
   const setAuditLogs = (newLogs: AuditLog[]) => {
     setAuditLogsState(newLogs);
-    dataStorage.saveToStorage("auditLogs", newLogs);
   };
 
   const setZohoLogs = (newLogs: ZohoIntegrationLog[]) => {
     setZohoLogsState(newLogs);
-    dataStorage.saveToStorage("zohoLogs", newLogs);
   };
 
   const setCurrentUser = (user: AdminUser | null) => {
     setCurrentUserState(user);
-    if (user) {
-      dataStorage.saveToStorage("currentUser", user);
-    } else {
-      dataStorage.removeFromStorage("currentUser");
+  };
+
+  // Secure Server-Side Login via API & HttpOnly Cookie
+  const login = async (username: string, password: string): Promise<{ success: boolean; message?: string }> => {
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+
+      if (data.success && data.user) {
+        setCurrentUserState(data.user);
+        await refreshInquiries();
+        await refreshAuditLogs();
+        return { success: true, message: data.message };
+      }
+
+      return { success: false, message: data.message || 'Login gagal.' };
+    } catch (err: any) {
+      return { success: false, message: 'Gagal terhubung ke server autentikasi.' };
     }
   };
 
-  const setMaintenanceConfig = (config: MaintenanceConfig) => {
-    setMaintenanceConfigState(config);
-    dataStorage.saveToStorage("maintenanceConfig", config);
+  // Secure Server-Side Logout (Membersihkan HttpOnly Cookie)
+  const logout = async (): Promise<void> => {
     try {
-      fetch('/api/settings/maintenance', {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch {}
+    setCurrentUserState(null);
+  };
+
+  // Pembaruan Konfigurasi Maintenance Terpusat di Server
+  const setMaintenanceConfig = async (config: MaintenanceConfig): Promise<boolean> => {
+    setMaintenanceConfigState(config);
+    try {
+      const res = await fetch('/api/settings/maintenance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(config),
-      }).catch(() => {});
-    } catch (e) {}
+      });
+      const data = await res.json();
+      if (data.success && data.data) {
+        setMaintenanceConfigState(data.data);
+        return true;
+      }
+    } catch {}
+    return false;
   };
 
-  const toggleMaintenanceMode = (targetState?: boolean) => {
+  const toggleMaintenanceMode = async (targetState?: boolean): Promise<boolean> => {
     const nextState = typeof targetState === 'boolean' ? targetState : !maintenanceConfig.enabled;
     const updated: MaintenanceConfig = {
       ...maintenanceConfig,
       enabled: nextState,
     };
-
-    setMaintenanceConfig(updated);
-
-    // Record audit log entry
-    const log: AuditLog = {
-      id: `log-${Date.now()}`,
-      timestamp: new Date().toISOString(),
-      actor: currentUser?.name || 'Administrator',
-      action: nextState ? 'ENABLE_MAINTENANCE' : 'DISABLE_MAINTENANCE',
-      entityType: 'SYSTEM_SETTINGS',
-      details: nextState
-        ? 'Mode Pemeliharaan (Maintenance Mode) berhasil DIAKTIFKAN'
-        : 'Mode Pemeliharaan (Maintenance Mode) berhasil DINONAKTIFKAN',
-    };
-    setAuditLogs([log, ...auditLogs]);
+    return await setMaintenanceConfig(updated);
   };
 
+  // Pengiriman RFQ ke Server / MySQL
   const addInquiry = async (
     raw: Omit<InquiryItem, 'id' | 'inquiryCode' | 'createdAt' | 'status' | 'zohoSynced'>
   ): Promise<string> => {
@@ -325,33 +345,38 @@ export function AppProvider({ children }: { children: ReactNode }) {
       zohoSynced: true,
     };
 
-    const updated = [newInquiry, ...inquiries];
-    setInquiries(updated);
+    // Optimistic UI update
+    setInquiriesState((prev) => [newInquiry, ...prev]);
 
-    // Record audit log
-    const log: AuditLog = {
-      id: `log-${Date.now()}`,
-      timestamp: new Date().toISOString(),
-      actor: raw.email,
-      action: 'SUBMIT_INQUIRY',
-      entityType: 'INQUIRY',
-      entityId: inquiryCode,
-      details: `New RFQ from ${raw.company} (${raw.productName}, ${raw.quantity})`,
-    };
-    setAuditLogs([log, ...auditLogs]);
-
-    // Record mock Zoho integration sync
-    const zohoLog: ZohoIntegrationLog = {
-      id: `zh-${Date.now()}`,
-      timestamp: new Date().toISOString(),
-      service: 'Cliq',
-      status: 'SUCCESS',
-      payloadSummary: `Card dispatched to #ckw-leads for ${inquiryCode}`,
-      responseCode: 200,
-    };
-    setZohoLogs([zohoLog, ...zohoLogs]);
+    // Kirim secara riil ke Backend API
+    try {
+      await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...raw, inquiryCode }),
+      });
+    } catch {}
 
     return inquiryCode;
+  };
+
+  // Update Status Inquiry oleh Admin
+  const updateInquiryStatus = async (id: number | string, status: InquiryItem['status'], notes?: string): Promise<boolean> => {
+    setInquiriesState((prev) =>
+      prev.map((inq) => (inq.id === id || inq.inquiryCode === id ? { ...inq, status, notes: notes ?? inq.notes } : inq))
+    );
+
+    try {
+      const res = await fetch('/api/inquiry', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status, notes }),
+      });
+      const data = await res.json();
+      return Boolean(data.success);
+    } catch {
+      return false;
+    }
   };
 
   if (!isLoaded) {
@@ -378,10 +403,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setZohoLogs,
         currentUser,
         setCurrentUser,
+        login,
+        logout,
         addInquiry,
+        updateInquiryStatus,
         maintenanceConfig,
         setMaintenanceConfig,
         toggleMaintenanceMode,
+        refreshInquiries,
+        refreshProducts,
+        refreshAuditLogs,
       }}
     >
       {children}

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
+import { getSession } from '@/lib/auth';
+import { serverStore } from '@/lib/serverStore';
 
 export async function GET() {
   try {
@@ -13,44 +15,64 @@ export async function GET() {
         : rows[0].setting_value;
       return NextResponse.json({ success: true, data: parsed });
     }
-
-    return NextResponse.json({ 
-      success: true, 
-      data: { enabled: false } 
-    });
   } catch (error: any) {
-    // If DB is offline or table does not exist, fail gracefully
-    return NextResponse.json({ 
-      success: false, 
-      error: error?.message || 'Database query error',
-      data: { enabled: false } 
-    });
+    // Database offline - lanjutkan ke serverStore
   }
+
+  return NextResponse.json({ 
+    success: true, 
+    data: serverStore.maintenance 
+  });
 }
 
 export async function POST(request: Request) {
+  // Verifikasi autentikasi admin di sisi server
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json(
+      { success: false, message: 'Autentikasi admin diperlukan untuk mengubah mode pemeliharaan.' },
+      { status: 401 }
+    );
+  }
+
   try {
     const body = await request.json();
+    serverStore.maintenance = { ...serverStore.maintenance, ...body };
+
     const serialized = JSON.stringify(body);
 
-    await query(
-      `INSERT INTO system_settings (setting_key, setting_value, updated_at) 
-       VALUES ('maintenance_mode', ?, NOW()) 
-       ON DUPLICATE KEY UPDATE setting_value = ?, updated_at = NOW()`,
-      [serialized, serialized]
-    );
+    try {
+      await query(
+        `INSERT INTO system_settings (setting_key, setting_value, updated_at) 
+         VALUES ('maintenance_mode', ?, NOW()) 
+         ON DUPLICATE KEY UPDATE setting_value = ?, updated_at = NOW()`,
+        [serialized, serialized]
+      );
+    } catch {}
+
+    // Catat log audit ke DB
+    try {
+      await query(
+        `INSERT INTO audit_logs (actor, action, entity_type, details) VALUES (?, ?, ?, ?)`,
+        [
+          session.username,
+          body.enabled ? 'ENABLE_MAINTENANCE' : 'DISABLE_MAINTENANCE',
+          'SYSTEM_SETTINGS',
+          `Mode pemeliharaan diubah menjadi: ${body.enabled ? 'AKTIF' : 'NONAKTIF'}`
+        ]
+      );
+    } catch {}
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Status pemeliharaan berhasil disimpan di database.',
-      data: body 
+      message: 'Status pemeliharaan berhasil diperbarui di server.',
+      data: serverStore.maintenance 
     });
   } catch (error: any) {
     return NextResponse.json({ 
       success: false, 
-      message: 'Gagal menyimpan ke database (fallback localstorage aktif).',
+      message: 'Gagal memperbarui status pemeliharaan.',
       error: error?.message 
-    }, { status: 200 }); // Return 200 so client seamlessly uses fallback
+    }, { status: 500 });
   }
 }
-

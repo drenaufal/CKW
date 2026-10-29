@@ -15,12 +15,18 @@ export default function AdminPage() {
     products, 
     setProducts, 
     currentUser, 
-    setCurrentUser, 
+    setCurrentUser,
+    login,
+    logout,
+    updateInquiryStatus,
     auditLogs, 
     zohoLogs,
     maintenanceConfig,
     setMaintenanceConfig,
-    toggleMaintenanceMode
+    toggleMaintenanceMode,
+    refreshInquiries,
+    refreshProducts,
+    refreshAuditLogs
   } = useAppContext();
 
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -29,6 +35,7 @@ export default function AdminPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // Toast
   const [toastMessage, setToastMessage] = useState('');
@@ -63,30 +70,48 @@ export default function AdminPage() {
     setTimeout(() => setToastMessage(''), 3000);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username.trim() === 'admin' && password === 'admin123') {
-      setCurrentUser({ role: 'superadmin', name: 'Super Admin' });
-      setLoginError('');
-      showToast('Login berhasil sebagai Super Admin');
-    } else {
-      setLoginError('Kredensial tidak valid. Silakan gunakan user: admin / pass: admin123');
+    setIsLoggingIn(true);
+    setLoginError('');
+    try {
+      const res = await login(username.trim(), password);
+      if (res.success) {
+        showToast('Login berhasil sebagai Administrator');
+      } else {
+        setLoginError(res.message || 'Kredensial tidak valid.');
+      }
+    } catch {
+      setLoginError('Terjadi kesalahan koneksi ke server.');
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
-  const handleLogout = () => {
-    setCurrentUser(null);
+  const handleLogout = async () => {
+    await logout();
+    showToast('Berhasil keluar dari sistem.');
   };
 
-  const toggleProductStatus = (id: number) => {
+  const toggleProductStatus = async (id: number) => {
+    const targetProduct = products.find(p => p.id === id);
+    if (!targetProduct) return;
+    const nextStatus = targetProduct.status === 'published' ? 'draft' as const : 'published' as const;
     const updated = products.map(p => {
       if (p.id === id) {
-        return { ...p, status: p.status === 'published' ? 'draft' as const : 'published' as const };
+        return { ...p, status: nextStatus };
       }
       return p;
     });
     setProducts(updated);
     showToast('Status produk berhasil diperbarui');
+    try {
+      await fetch('/api/products', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...targetProduct, status: nextStatus }),
+      });
+    } catch {}
   };
 
   const handleToggleMaintenance = () => {
@@ -156,9 +181,17 @@ export default function AdminPage() {
             <div className="pt-2">
               <button 
                 type="submit" 
-                className="w-full py-3.5 bg-brand-navy-950 hover:bg-brand-navy-900 text-white font-bold rounded-xl transition-colors text-sm shadow-md"
+                disabled={isLoggingIn}
+                className="w-full py-3.5 bg-brand-navy-950 hover:bg-brand-navy-900 disabled:opacity-70 text-white font-bold rounded-xl transition-colors text-sm shadow-md flex items-center justify-center gap-2"
               >
-                Masuk ke Dashboard CMS
+                {isLoggingIn ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-brand-gold-500 border-t-transparent rounded-full animate-spin"></span>
+                    <span>Memverifikasi...</span>
+                  </>
+                ) : (
+                  <span>Masuk ke Dashboard CMS</span>
+                )}
               </button>
             </div>
             <div className="text-center text-xs text-neutral-400 pt-2">
@@ -615,9 +648,21 @@ export default function AdminPage() {
                   <h2 className="font-display font-bold text-xl text-brand-navy-950">Commercial Inquiries Manager</h2>
                   <p className="text-xs text-neutral-500 mt-1">Daftar permintaan penawaran harga dari form RFQ publik</p>
                 </div>
-                <span className="px-3 py-1 bg-brand-navy-50 text-brand-navy-950 font-mono text-xs font-bold rounded-lg">
-                  {inquiries.length} Inquiries
-                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      refreshInquiries();
+                      showToast('Data RFQ disinkronkan dari server');
+                    }}
+                    className="p-1.5 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-600 transition-colors"
+                    title="Refresh Data dari Server"
+                  >
+                    <RefreshCw size={14} />
+                  </button>
+                  <span className="px-3 py-1 bg-brand-navy-50 text-brand-navy-950 font-mono text-xs font-bold rounded-lg">
+                    {inquiries.length} Inquiries
+                  </span>
+                </div>
               </div>
 
               {inquiries.length === 0 ? (
@@ -653,9 +698,21 @@ export default function AdminPage() {
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-2">
-                              <span className="px-2.5 py-1 bg-blue-50 text-brand-blue-700 font-bold rounded-full text-[10px]">
-                                {inq.status}
-                              </span>
+                              <select
+                                value={inq.status}
+                                onChange={async (e) => {
+                                  const nextStatus = e.target.value as any;
+                                  const ok = await updateInquiryStatus(inq.id, nextStatus);
+                                  if (ok) showToast(`Status ${inq.inquiryCode} diubah ke ${nextStatus}`);
+                                }}
+                                className="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-brand-blue-700 font-bold rounded-lg text-[10px] outline-none cursor-pointer transition-colors"
+                              >
+                                <option value="NEW">BARU (NEW)</option>
+                                <option value="READ">DIBACA (READ)</option>
+                                <option value="CONTACTED">DIHUBUNGI</option>
+                                <option value="QUOTED">PENAWARAN</option>
+                                <option value="CLOSED">SELESAI</option>
+                              </select>
                               {inq.zohoSynced && (
                                 <span className="px-2 py-0.5 bg-green-50 text-green-700 rounded text-[10px] font-mono">
                                   Zoho ✓
