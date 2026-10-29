@@ -96,50 +96,64 @@ export interface MaintenanceConfig {
   contactPhone?: string;
 }
 
+/**
+ * Service untuk preferensi tampilan non-sensitif (Bahasa ID/EN).
+ * Sesuai arsitektur produksi, konten (produk, inquiry, maintenance, session)
+ * sepenuhnya tersimpan dan tersinkronisasi di MySQL Database via REST API.
+ */
 class DataStorageService {
   private prefix = "ckw_portal_v1_";
-  private inMemoryCache: Record<string, any> = {};
 
-  private get keyPrefix() {
-    return this.prefix;
+  constructor() {
+    this.purgeLegacyContentKeys();
+  }
+
+  /**
+   * Menghapus sisa-sisa data konten lama dari LocalStorage browser pengguna
+   * agar 100% data ditarik murni dari database MySQL.
+   */
+  private purgeLegacyContentKeys() {
+    if (typeof window !== "undefined") {
+      try {
+        const legacyKeys = [
+          "currentUser",
+          "products",
+          "inquiries",
+          "auditLogs",
+          "zohoLogs",
+          "maintenanceConfig",
+        ];
+        legacyKeys.forEach((k) => window.localStorage.removeItem(this.prefix + k));
+      } catch {}
+    }
   }
 
   saveToStorage(key: string, data: any) {
-    this.inMemoryCache[key] = data;
     try {
       if (typeof window !== "undefined") {
-        window.localStorage.setItem(this.keyPrefix + key, JSON.stringify(data));
+        window.localStorage.setItem(this.prefix + key, JSON.stringify(data));
       }
-    } catch (e) {
-      console.warn("localStorage not available, using memory cache", e);
-    }
+    } catch {}
   }
 
   loadFromStorage(key: string, defaultValue: any = null) {
     try {
       if (typeof window !== "undefined") {
-        const item = window.localStorage.getItem(this.keyPrefix + key);
+        const item = window.localStorage.getItem(this.prefix + key);
         if (item) {
-          const parsed = JSON.parse(item);
-          this.inMemoryCache[key] = parsed;
-          return parsed;
+          return JSON.parse(item);
         }
       }
-    } catch (e) {
-      console.warn("localStorage not available, reading from memory cache", e);
-    }
-    return this.inMemoryCache[key] !== undefined ? this.inMemoryCache[key] : defaultValue;
+    } catch {}
+    return defaultValue;
   }
 
   removeFromStorage(key: string) {
-    delete this.inMemoryCache[key];
     try {
       if (typeof window !== "undefined") {
-        window.localStorage.removeItem(this.keyPrefix + key);
+        window.localStorage.removeItem(this.prefix + key);
       }
-    } catch (e) {
-      console.warn("localStorage not available, deleting from memory cache", e);
-    }
+    } catch {}
   }
 }
 

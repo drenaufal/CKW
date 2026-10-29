@@ -6,7 +6,7 @@ import { serverStore } from '@/lib/serverStore';
 export async function GET() {
   try {
     const rows = await query<any[]>(
-      `SELECT setting_value FROM system_settings WHERE setting_key = 'maintenance_mode' LIMIT 1`
+      `SELECT setting_value FROM system_settings WHERE setting_key IN ('maintenance_mode', 'maintenance') ORDER BY updated_at DESC LIMIT 1`
     );
 
     if (rows && rows.length > 0) {
