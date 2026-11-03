@@ -19,7 +19,8 @@ export default function Navbar() {
     { href: '/', label_id: 'Beranda', label_en: 'Home' },
     { href: '/about', label_id: 'Tentang Kami', label_en: 'About Us' },
     { href: '/operations', label_id: 'Operasi & Fasilitas', label_en: 'Operations' },
-    { href: '/products', label_id: 'Katalog Produk', label_en: 'Products' },
+    // { href: '/products', label_id: 'Katalog Produk', label_en: 'Products' },
+    { href: '/specifications', label_id: 'Produk', label_en: 'Custom Specifications' },
     { href: '/industries', label_id: 'Industri', label_en: 'Industries' },
     { href: '/logistics', label_id: 'Logistik', label_en: 'Logistics' },
     { href: '/contact', label_id: 'Kontak & RFQ', label_en: 'Contact & RFQ' },
@@ -143,4 +144,3 @@ export default function Navbar() {
     </>
   );
 }
-

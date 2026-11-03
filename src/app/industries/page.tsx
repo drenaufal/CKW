@@ -2,90 +2,76 @@
 
 import React from 'react';
 import { useAppContext } from '@/context/AppContext';
-import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { 
+  Layers, SunMedium, Factory, Grid, Leaf, 
+  Building2, Filter, Flame, Cpu, CheckCircle2, 
+  Globe
+} from 'lucide-react';
 
 export default function IndustriesPage() {
   const { locale } = useAppContext();
 
+  // 9 Sektor Industri (Section 6: Industri yang Kami Layani)
   const industries = [
     {
-      title_id: 'Industri Kaca Float & Kaca Lembaran',
-      title_en: 'Float & Architectural Flat Glass',
-      img: 'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=2070',
-      specs: 'SiO2 ≥ 99.3%, Fe2O3 ≤ 0.020%, Mesh 30-100',
-      desc_id: 'Memerlukan kemurnian kimia sangat tinggi untuk memastikan transmisi cahaya jernih tanpa distorsi warna kehijauan yang disebabkan oleh residu oksida besi.',
-      desc_en: 'Requires ultra-high chemical purity to ensure brilliant light transmission without greenish discoloration caused by iron contamination.'
+      num: '01',
+      icon: Layers,
+      title_id: 'Pembuatan Kaca',
+      title_en: 'Glass Manufacturing'
     },
     {
-      title_id: 'Kaca Panel Surya (Photovoltaic PV)',
-      title_en: 'Solar Photovoltaic (PV) Cover Glass',
-      img: 'https://images.unsplash.com/photo-1509391366360-1200b7b44370?q=80&w=2072',
-      specs: 'SiO2 ≥ 99.5%, Fe2O3 ≤ 100 ppm, TiO2 ≤ 0.01%',
-      desc_id: 'Bahan baku vital untuk kaca pelindung sel fotovoltaik surya dengan transmisi foton maksimal untuk meningkatkan efisiensi konversi daya modul.',
-      desc_en: 'Critical raw feed for photovoltaic protective covers demanding maximum photon transmission to elevate solar module efficiency.'
+      num: '02',
+      icon: SunMedium,
+      title_id: 'Panel Surya & Fotovoltaik',
+      title_en: 'Solar & Photovoltaics'
     },
     {
-      title_id: 'Pengecoran Logam & Cetakan Cor (Foundry)',
-      title_en: 'Metal Casting & Foundry Sands',
-      img: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2070',
-      specs: 'AFS 45-55, Sub-angular grains, Hardness 7 Mohs',
-      desc_id: 'Titik lebur tinggi dan permeabilitas optimal untuk cetakan logam besi, baja, dan paduan otomotif untuk mencegah cacat gas pada produk cor.',
-      desc_en: 'High refractory threshold and balanced permeability for casting cores in automotive and heavy equipment foundries.'
+      num: '03',
+      icon: Factory,
+      title_id: 'Pembuatan Semen',
+      title_en: 'Cement Manufacturing'
     },
     {
-      title_id: 'Media Filtrasi Air Bersih & Limbah',
-      title_en: 'Municipal & Industrial Water Filtration',
-      img: 'https://images.unsplash.com/photo-1583324113626-70df0f4deaab?q=80&w=2070',
-      specs: 'ES 0.5-1.2 mm, UC ≤ 1.4, SNI & AWWA B100',
-      desc_id: 'Pasir silika berkoefisien keseragaman tinggi untuk menyaring partikel tersuspensi, sedimen, dan lumut pada pengolahan air minum dan limbah industri.',
-      desc_en: 'Uniformity-controlled silica grains effectively trapping particulate turbidity in municipal and industrial wastewater facilities.'
+      num: '04',
+      icon: Grid,
+      title_id: 'Industri Keramik',
+      title_en: 'Ceramics Industry'
     },
     {
-      title_id: 'Mortar Kering, Semen Instan & Konstruksi',
-      title_en: 'Dry-Mix Mortar, Grouting & Construction',
-      img: 'https://images.unsplash.com/photo-1541888087455-236b280327f5?q=80&w=2070',
-      specs: 'Kering Kiln ≤ 0.2% moisture, Gradasi Terukur',
-      desc_id: 'Agregat kering presisi tinggi untuk mortar perekat bata ringan, skim coat, dan beton mutu tinggi dengan daya lekat optimal.',
-      desc_en: 'High-purity dry aggregates ensuring optimal compressive bond strength and workability in pre-blended dry chemical mortar systems.'
+      num: '05',
+      icon: Leaf,
+      title_id: 'Industri Pupuk',
+      title_en: 'Fertilizer Industry'
     },
     {
-      title_id: 'Keramik, Saniter & Granit Ubin',
-      title_en: 'Ceramics, Sanitaryware & Porcelain Tiles',
-      img: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=2070',
-      specs: 'SiO2 ≥ 99.0%, Low LOI, Granulometri Stabil',
-      desc_id: 'Komponen bodi keramik dan glasir untuk meningkatkan kekerasan struktural, ketahanan abrasi, dan stabilitas termal saat pembakaran kiln.',
-      desc_en: 'Vital component for ceramic bodies and glaze formulation offering thermal shock stability and scratch resistance.'
+      num: '06',
+      icon: Building2,
+      title_id: 'Bahan Bangunan',
+      title_en: 'Building Materials'
     },
     {
-      title_id: 'Industri Kimia & Natrium Silikat',
-      title_en: 'Chemical Industry & Sodium Silicate',
-      img: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=2070',
-      specs: 'Kereaktifan Tinggi, SiO2 ≥ 99.2%',
-      desc_id: 'Bahan baku sintesis waterglass (natrium silikat), silika gel desikan, dan senyawa kimia berbasis silikon.',
-      desc_en: 'Essential precursor for sodium silicate (water glass) synthesis, silica gels, and silicone-based chemicals.'
+      num: '07',
+      icon: Filter,
+      title_id: 'Mineral Industri',
+      title_en: 'Industrial Minerals'
     },
     {
-      title_id: 'Lantai Epoksi & Sandblasting',
-      title_en: 'Epoxy Flooring & Surface Sandblasting',
-      img: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=2070',
-      specs: 'Kekerasan Tinggi 7 Mohs, Butir Bersih',
-      desc_id: 'Digunakan sebagai agregat anti-selip pada pelapis lantai resin epoksi industri dan abrasif sandblasting untuk persiapan permukaan baja.',
-      desc_en: 'Used as anti-slip broadcast aggregate for heavy-duty epoxy floors and profile sandblasting for steel structures.'
+      num: '08',
+      icon: Flame,
+      title_id: 'Pengecoran',
+      title_en: 'Foundry & Metal Casting'
     },
     {
-      title_id: 'Pengeboran Migas (Frac Sand)',
-      title_en: 'Oil & Gas Hydraulic Fracturing Sand',
-      img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2069',
-      specs: 'Crush Resistance Tinggi, Sphericity Optimal',
-      desc_id: 'Proppant silika dengan ketahanan tekan tinggi untuk menjaga rekahan formasi sumur minyak dan gas tetap terbuka pada tekanan tinggi.',
-      desc_en: 'High crush-resistant quartz proppant engineered to prop open hydraulic fractures in oil and gas production wells.'
+      num: '09',
+      icon: Cpu,
+      title_id: 'Industri Manufaktur Khusus Lainnya',
+      title_en: 'Other Specialized Manufacturing'
     }
   ];
 
   return (
     <div className="w-full">
-      {/* Header */}
+      {/* Hero Header */}
       <div className="bg-brand-navy-950 py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
         <div className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 text-center">
@@ -95,79 +81,89 @@ export default function IndustriesPage() {
           <h1 className="font-display font-extrabold text-3xl md:text-5xl text-white mb-4">
             {locale === 'id' ? 'Industri yang Kami Layani' : 'Industries We Serve'}
           </h1>
-          <p className="text-neutral-300 max-w-2xl mx-auto text-sm md:text-base">
+          <p className="text-neutral-300 max-w-3xl mx-auto text-sm md:text-base leading-relaxed">
             {locale === 'id'
-              ? 'Pasir silika PT. Cempaga Karya Wijaya menopang kebutuhan strategis rantai pasok industri nasional dan regional.'
-              : 'Our refined quartz products supply strategic supply chains across 9 primary manufacturing sectors.'}
+              ? 'Produk pasir silika PT. Cempaga Karya Wijaya mendukung berbagai sektor industri manufaktur strategis.'
+              : 'PT. Cempaga Karya Wijaya silica sand products support diverse strategic manufacturing industry sectors.'}
           </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-20">
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {industries.map((ind, idx) => (
-            <div 
-              key={idx} 
-              className="bg-white rounded-2xl overflow-hidden border border-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group"
-            >
-              <div className="h-48 overflow-hidden relative">
-                <img 
-                  src={ind.img} 
-                  alt={ind.title_en} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                />
-                <div className="absolute top-3 left-3 bg-brand-navy-950/80 backdrop-blur-sm px-2.5 py-1 rounded-md text-[11px] font-mono font-semibold text-brand-gold-400">
-                  {ind.specs}
-                </div>
+        {/* Section Header */}
+        <div className="mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-50 text-brand-blue-600 text-xs font-semibold mb-3">
+                <Factory size={14} />
+                <span>{locale === 'id' ? '9 Sektor Industri Utama' : '9 Primary Industrial Sectors'}</span>
               </div>
-              <div className="p-6 flex-grow flex flex-col justify-between">
-                <div>
-                  <h3 className="font-display font-bold text-lg text-brand-navy-950 mb-2 leading-snug">
-                    {locale === 'id' ? ind.title_id : ind.title_en}
-                  </h3>
-                  <p className="text-neutral-600 text-xs md:text-sm leading-relaxed mb-6">
-                    {locale === 'id' ? ind.desc_id : ind.desc_en}
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-neutral-100">
-                  <Link 
-                    href="/contact"
-                    className="inline-flex items-center text-xs font-bold text-brand-blue-600 hover:text-brand-gold-600 transition-colors"
-                  >
-                    <span>{locale === 'id' ? 'Konsultasi Spesifikasi Industri' : 'Consult Industry Specs'}</span>
-                    <ArrowRight size={14} className="ml-1" />
-                  </Link>
-                </div>
-              </div>
+              <h2 className="font-display font-bold text-2xl md:text-4xl text-neutral-900">
+                {locale === 'id' ? 'Sektor Industri Manufaktur Strategis' : 'Strategic Manufacturing Sectors'}
+              </h2>
             </div>
-          ))}
+            <div className="inline-flex items-center gap-2 text-xs md:text-sm text-neutral-500">
+              <CheckCircle2 size={16} className="text-brand-gold-600" />
+              <span>{locale === 'id' ? 'Jangkauan Nasional & Ekspor' : 'Domestic & Export Reach'}</span>
+            </div>
+          </div>
+
+          <p className="text-neutral-600 text-sm md:text-base leading-relaxed">
+            {locale === 'id'
+              ? 'Produk pasir silika PT. Cempaga Karya Wijaya mendukung berbagai sektor industri manufaktur strategis:'
+              : 'PT. Cempaga Karya Wijaya silica sand products support diverse strategic manufacturing industry sectors:'}
+          </p>
         </div>
 
-        {/* Corridor Banner */}
-        <div className="bg-brand-navy-900 text-white rounded-3xl p-8 md:p-12 border border-brand-navy-800">
-          <div className="grid lg:grid-cols-3 gap-8 items-center">
-            <div className="lg:col-span-2">
-              <span className="text-brand-gold-400 font-semibold text-xs uppercase tracking-wider block mb-2">
-                {locale === 'id' ? 'Jaringan Pasokan Koridor Pantura' : 'Pantura Industrial Corridor Network'}
-              </span>
-              <h3 className="font-display font-bold text-2xl md:text-3xl text-white mb-3">
-                {locale === 'id' ? 'Konektivitas Cepat: Semarang - Rembang - Surabaya' : 'Rapid Freight: Semarang - Rembang - Surabaya'}
-              </h3>
-              <p className="text-neutral-300 text-sm leading-relaxed">
-                {locale === 'id'
-                  ? 'Lokasi sentral kami di jalur nasional 4 lajur memungkinkan pasokan "Just-in-Time" ke kawasan industri Jawa Tengah & Jawa Timur, serta pengiriman ekspor luar negeri via Pelabuhan Rembang.'
-                  : 'Our central facility along the 4-lane national highway corridor provides Just-in-Time delivery to plants across Central & East Java, alongside maritime export dispatch from Rembang Port.'}
-              </p>
-            </div>
-            <div className="flex justify-start lg:justify-end">
-              <Link 
-                href="/logistics"
-                className="px-6 py-3.5 bg-brand-gold-500 hover:bg-brand-gold-400 text-brand-navy-950 font-bold rounded-xl text-sm transition-colors shadow"
+        {/* Mobile Swipe Cue */}
+        <div className="flex items-center justify-between sm:hidden text-xs text-neutral-400 mb-3 px-1">
+          <span className="inline-flex items-center gap-1 font-semibold text-brand-blue-600">
+            <span>← Geser untuk melihat semua industri →</span>
+          </span>
+          <span className="text-[11px] font-semibold bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-full">
+            9 Sektor
+          </span>
+        </div>
+
+        {/* 9 Industry Cards: Mobile Slide & Desktop Grid */}
+        <div className="flex overflow-x-auto pb-4 pt-1 snap-x snap-mandatory gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 sm:overflow-visible sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mb-12">
+          {industries.map((ind) => {
+            const IconComp = ind.icon;
+            return (
+              <div 
+                key={ind.num}
+                className="min-w-[270px] max-w-[320px] sm:min-w-0 sm:max-w-none flex-shrink-0 sm:flex-shrink snap-start bg-white rounded-2xl p-6 border border-neutral-200/90 shadow-sm hover:shadow-md transition-all flex items-center gap-4 group hover:border-brand-blue-300"
               >
-                {locale === 'id' ? 'Pelajari Jaringan Logistik' : 'Explore Logistics Network'}
-              </Link>
+                <div className="w-14 h-14 rounded-2xl bg-brand-blue-50 text-brand-navy-950 flex items-center justify-center shrink-0 group-hover:bg-brand-blue-600 group-hover:text-white transition-colors duration-200">
+                  <IconComp size={24} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs font-bold font-mono text-brand-gold-600 mb-1 block">
+                    {ind.num}
+                  </span>
+                  <h3 className="font-display font-bold text-base md:text-lg text-neutral-900 leading-snug group-hover:text-brand-blue-600 transition-colors">
+                    {locale === 'id' ? ind.title_id : ind.title_en}
+                  </h3>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Section Jangkauan Logistik Strategis (Lebar Penuh) */}
+        <div className="bg-brand-navy-950 text-white rounded-3xl p-8 md:p-12 lg:p-14 border border-brand-navy-900 relative overflow-hidden shadow-xl mb-12 w-full">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="relative z-10 w-full space-y-5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-gold-500/20 text-brand-gold-400 text-xs font-semibold">
+              <Globe size={15} />
+              <span>{locale === 'id' ? 'Jangkauan Logistik Strategis' : 'Strategic Logistics Reach'}</span>
             </div>
+            <h3 className="font-display font-bold text-xl md:text-2xl lg:text-3xl text-white leading-relaxed md:leading-snug max-w-none">
+              {locale === 'id' 
+                ? 'Basis pelanggan utama kami tersebar di sepanjang koridor industri antara Semarang dan Surabaya, dengan peluang tambahan untuk pasar ekspor.'
+                : 'Our primary customer base is spread along the industrial corridor between Semarang and Surabaya, with additional opportunities for export markets.'}
+            </h3>
           </div>
         </div>
 
@@ -175,4 +171,3 @@ export default function IndustriesPage() {
     </div>
   );
 }
-

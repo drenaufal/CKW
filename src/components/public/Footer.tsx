@@ -49,8 +49,9 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { href: '/about', label_id: 'Tentang Perusahaan', label_en: 'About Company' },
-                { href: '/operations', label_id: 'Operasi & 7-Tahap Benefisiasi', label_en: 'Operations & 7 Stages' },
+                { href: '/operations', label_id: 'Operasi & Fasilitas Pabrik', label_en: 'Operations & Facilities' },
                 { href: '/products', label_id: 'Katalog Pasir Silika', label_en: 'Silica Products Catalog' },
+                { href: '/specifications', label_id: 'Kustomisasi Spesifikasi', label_en: 'Custom Specifications' },
                 { href: '/industries', label_id: '9 Sektor Industri', label_en: '9 Industry Sectors' },
                 { href: '/logistics', label_id: 'Logistik & Jetty Pelabuhan', label_en: 'Logistics & Seaport Jetty' },
                 { href: '/contact', label_id: 'Formulir Permintaan Penawaran (RFQ)', label_en: 'Commercial RFQ Inquiries' },
@@ -94,24 +95,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Commercial CTA & Zoho Bridge */}
-          {/* <div>
-            <div className="bg-brand-navy-900 rounded-2xl p-6 border border-brand-navy-800">
-              <h4 className="font-display font-bold text-white text-base mb-3">
-                {locale === 'id' ? 'Butuh Pasokan Skala Besar?' : 'Need Bulk Supply?'}
-              </h4>
-              <p className="text-neutral-400 text-xs leading-relaxed mb-4">
-                {locale === 'id' 
-                  ? 'Kapasitas produksi 50.000 MT/Bulan dengan jaminan pasokan jangka panjang & integrasi otomatis Zoho Mail.' 
-                  : '50,000 MT/Month capacity with long-term guaranteed supply & automated Zoho Mail integration.'}
-              </p>
-              <Link href="/contact" className="flex items-center justify-center gap-1.5 w-full text-center px-4 py-2.5 bg-brand-gold-500 hover:bg-brand-gold-400 text-brand-navy-950 font-bold rounded-xl transition-colors text-xs uppercase tracking-wider">
-                <span>{locale === 'id' ? 'Minta Penawaran (RFQ)' : 'Request RFQ Quote'}</span>
-                <ArrowUpRight size={15} />
-              </Link>
-            </div>
-          </div> */}
-
         </div>
 
         <div className="pt-8 border-t border-brand-navy-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-neutral-500">
@@ -123,11 +106,9 @@ export default function Footer() {
             <span>•</span>
             <span>Rembang, Central Java</span>
             <span>•</span>
-            {/* <Link href="/admin" className="text-brand-gold-500 hover:underline">CMS Dashboard</Link> */}
           </div>
         </div>
       </div>
     </footer>
   );
 }
-

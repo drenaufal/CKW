@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { createSessionToken, setSessionCookie, hashPassword, AdminSessionUser } from '@/lib/auth';
 
+/**
+ * Endpoint Login Admin CMS
+ * MURNI TERHUBUNG KE DATABASE MYSQL - TANPA FALLBACK HARDCODED / DARURAT
+ */
 export async function POST(request: Request) {
   try {
     const { username, password } = await request.json();
@@ -13,65 +17,67 @@ export async function POST(request: Request) {
       );
     }
 
-    let authenticatedUser: AdminSessionUser | null = null;
+    let rows: any[] = [];
 
-    // 1. Coba verifikasi dengan database MySQL jika tersedia
+    // Verifikasi murni ke tabel admin_users di database MySQL
     try {
-      const rows = await query<any[]>(
+      rows = await query<any[]>(
         `SELECT id, username, password_hash, name, role FROM admin_users WHERE username = ? LIMIT 1`,
         [username.trim()]
       );
-
-      if (rows && rows.length > 0) {
-        const dbUser = rows[0];
-        // Cek hash password atau password langsung jika belum ter-hash
-        const hashedInput = hashPassword(password);
-        if (dbUser.password_hash === hashedInput || dbUser.password_hash === password) {
-          authenticatedUser = {
-            id: dbUser.id,
-            username: dbUser.username,
-            name: dbUser.name,
-            role: dbUser.role || 'superadmin',
-          };
-        }
-      }
-    } catch (dbErr) {
-      // Database offline - lanjutkan ke fallback
+    } catch (dbErr: any) {
+      console.error('Database connection error during login:', dbErr?.message);
+      return NextResponse.json(
+        { 
+          success: false, 
+          message: 'Koneksi ke database server gagal. Pastikan konfigurasi DATABASE_URL telah disetel pada environment hosting Anda.',
+          error: dbErr?.message 
+        },
+        { status: 503 }
+      );
     }
 
-    // 2. Fallback Kredensial Resmi Server (Jika DB belum dinyalakan)
-    if (!authenticatedUser) {
-      const defaultUser = process.env.ADMIN_DEFAULT_USER || 'admin';
-      const defaultPass = process.env.ADMIN_DEFAULT_PASSWORD || 'admin123';
-
-      if (username.trim() === defaultUser && (password === defaultPass || password === 'ckwadmin2026!')) {
-        authenticatedUser = {
-          id: 1,
-          username: 'admin',
-          name: 'Super Administrator CKW',
-          role: 'superadmin',
-        };
-      }
-    }
-
-    if (!authenticatedUser) {
+    // Jika user tidak ditemukan di database
+    if (!rows || rows.length === 0) {
       return NextResponse.json(
         { success: false, message: 'Username atau password tidak cocok.' },
         { status: 401 }
       );
     }
 
-    // 3. Buat cryptographic session token dan set di HttpOnly Cookie
+    const dbUser = rows[0];
+    const hashedInput = hashPassword(password);
+
+    // Cek kecocokan password dengan password_hash di database MySQL
+    const isPasswordValid = dbUser.password_hash === hashedInput || dbUser.password_hash === password;
+
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { success: false, message: 'Username atau password tidak cocok.' },
+        { status: 401 }
+      );
+    }
+
+    const authenticatedUser: AdminSessionUser = {
+      id: dbUser.id,
+      username: dbUser.username,
+      name: dbUser.name,
+      role: dbUser.role || 'superadmin',
+    };
+
+    // Buat cryptographic session token dan set di HttpOnly Cookie
     const token = createSessionToken(authenticatedUser);
     await setSessionCookie(token);
 
-    // Catat log login ke DB jika memungkinkan
+    // Catat log login ke tabel audit_logs di database MySQL
     try {
       await query(
         `INSERT INTO audit_logs (actor, action, entity_type, details) VALUES (?, ?, ?, ?)`,
-        [authenticatedUser.username, 'LOGIN', 'ADMIN_SESSION', 'Administrator berhasil login']
+        [authenticatedUser.username, 'LOGIN', 'ADMIN_SESSION', 'Administrator berhasil login via MySQL']
       );
-    } catch {}
+    } catch (logErr) {
+      console.warn('Failed to insert audit log:', logErr);
+    }
 
     return NextResponse.json({
       success: true,
@@ -85,4 +91,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

@@ -194,8 +194,9 @@ export default function AdminPage() {
                 )}
               </button>
             </div>
-            <div className="text-center text-xs text-neutral-400 pt-2">
-              Kredensial Demo: <code className="bg-neutral-100 px-2 py-0.5 rounded text-neutral-700 font-mono">admin</code> / <code className="bg-neutral-100 px-2 py-0.5 rounded text-neutral-700 font-mono">admin123</code>
+            <div className="text-center text-xs text-neutral-400 pt-2 flex items-center justify-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-green-500"></span>
+              <span>Autentikasi Terintegrasi Database MySQL</span>
             </div>
           </form>
         </div>

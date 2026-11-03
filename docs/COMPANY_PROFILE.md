@@ -80,22 +80,26 @@ Tujuan utama PT. Cempaga Karya Wijaya adalah menghasilkan produk pasir silika ya
 ## Section 4: Kapasitas Produksi & Fasilitas
 
 ### Kapasitas Operasional:
+* Fasilitas ini telah dirancang untuk operasi yang efisien dan dapat diskalakan.
 * **Kapasitas Produksi:** **50.000 Metrik Ton (MT)** per bulan.
 * **Jam Operasi Standar:** 10 jam per hari, 24 hari kerja per bulan.
 * **Tenaga Kerja:** Sekitar 30 personel terlatih dan tersertifikasi.
 * **Skalabilitas Produksi:** Dirancang untuk produksi skala penuh hingga **3 shift per hari (24 jam nonstop)** sesuai lonjakan permintaan pasar.
 
 ### Infrastruktur & Fasilitas Pabrik:
-* Sistem pencucian silika modern (*modern silica washing plant*)
-* Fasilitas pemurnian mineral (*beneficiation plant*)
-* Peralatan pencampur (*industrial blenders*)
-* Peralatan penyaringan dan pemisah ukuran (*screening & sieving equipment*)
-* Area penyimpanan bahan baku (*raw material stockpile area*)
-* Gudang / area penyimpanan produk jadi (*finished goods storage*)
-* Fasilitas penimbangan dan pemuatan truk (*truck loading bays*)
-* Laboratorium fasilitas pengendalian mutu (*QC laboratory*)
-* Kantor administrasi
-* Kantin karyawan, ruang ibadah, dan area istirahat staf
+* Fasilitas pengolahan ini telah dikembangkan dengan infrastruktur operasional yang lengkap, termasuk:
+1. * Sistem pencucian silika modern (*modern silica washing plant*)
+2. * Fasilitas pemurnian mineral (*beneficiation plant*)
+3. * Peralatan pencampur (*industrial blenders*)
+4. * Peralatan penyaringan dan pemisah ukuran (*screening & sieving equipment*)
+5. * Area penyimpanan bahan baku (*raw material stockpile area*)
+6. * Gudang / area penyimpanan produk jadi (*finished goods storage*)
+7. * Fasilitas pemuatan truk (*truck loading bays*)
+8. * Kantin Karyawan
+9. * Ruang Ibadah
+10. * Area istirahat staf
+11. * Kantor administrasi
+12. * Fasilitas pengendalian mutu (*QC laboratory*)
 
 ---
 
@@ -121,8 +125,8 @@ PT. Cempaga Karya Wijaya memasok pasir silika olahan yang disesuaikan secara khu
 
 ## Section 6: Industri yang Kami Layani
 
-Produk pasir silika PT. Cempaga Karya Wijaya memasok berbagai sektor industri manufaktur strategis:
-* **Pembuatan Kaca:** Kaca lembaran/arsitektur (*float glass*), kaca otomotif, kaca wadah & botol (*container glass*).
+Produk pasir silika PT. Cempaga Karya Wijaya mendukung berbagai sektor industri manufaktur strategis:
+<!-- * **Pembuatan Kaca:** Kaca lembaran/arsitektur (*float glass*), kaca otomotif, kaca wadah & botol (*container glass*).
 * **Panel Surya & Fotovoltaik:** Kaca pelindung surya (*solar PV glass*) dengan transmisi cahaya tinggi.
 * **Pembuatan Semen:** Pasir silika sebagai bahan korektif mutu semen.
 * **Industri Keramik & Sanitari:** Bahan baku glasir dan bodi keramik.
@@ -130,9 +134,21 @@ Produk pasir silika PT. Cempaga Karya Wijaya memasok berbagai sektor industri ma
 * **Bahan Bangunan:** Perekat ubin, mortar instan, dan beton pra-cetak.
 * **Mineral Industri & Sandblasting:** Media abrasif dan filtrasi air bersih/limbah.
 * **Pengecoran Logam (Foundry):** Pasir cetak cetakan besi, baja, dan non-ferrous tahan temperatur tinggi.
-* **Industri Manufaktur Khusus Lainnya:** Bahan baku sodium silikat, resin, dan cat industri.
+* **Industri Manufaktur Khusus Lainnya:** Bahan baku sodium silikat, resin, dan cat industri. -->
 
-**Jangkauan Pasar:** Koridor industri Jawa Tengah dan Jawa Timur (Semarang hingga Surabaya) serta pasar ekspor regional/internasional.
+* **Pembuatan Kaca** 
+* **Panel Surya & Fotovoltaik** 
+* **Pembuatan Semen** 
+* **Industri Keramik** 
+* **Industri Pupuk**
+* **Bahan Bangunan**
+* **Mineral Industri** 
+* **Pengecoran** 
+* **Industri Manufaktur Khusus Lainnya**
+
+*Basis pelanggan utama kami tersebar di sepanjang koridor industri antara Semarang dan Surabaya, dengan peluang tambahan untuk pasar ekspor.*
+
+<!-- **Jangkauan Pasar:** Koridor industri Jawa Tengah dan Jawa Timur (Semarang hingga Surabaya) serta pasar ekspor regional/internasional. -->
 
 ---
 
