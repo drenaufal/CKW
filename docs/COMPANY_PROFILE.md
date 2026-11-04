@@ -52,10 +52,14 @@ PT. Cempaga Karya Wijaya memiliki lokasi yang sangat menguntungkan yang memberik
 * **Dekat Pelabuhan:** Berjarak sekitar **10 km dari Pelabuhan Rembang**.
 * **Koridor Industri Utama:** Berada tepat di antara koridor industri strategis **Semarang dan Surabaya**.
 
-### Nilai Tambah Lokasi:
+Lokasi strategis ini memungkinkan transportasi bahan baku yang efisien dari Kalimantan Tengah dan sekaligus menyediakan pendistribusian produk pasir silika jadi, yang ekonomis kepada pelanggan di seluruh Jawa dan tujuan ekspor luar negeri.
+
+Jarak yang dekat dengan Pelabuhan Rembang secara signifikan mengurangi biaya transportasi baik untuk bahan baku yang masuk maupun pengiriman ekspor keluar.
+
+<!-- ### Nilai Tambah Lokasi:
 * **Transportasi Bahan Baku Efisien:** Memungkinkan alur pengapalan bahan baku yang lancar dan ekonomis dari tambang di Kalimantan Tengah.
 * **Distribusi Ekonomis:** Menjamin pengiriman produk jadi yang kompetitif ke seluruh sentra industri di Pulau Jawa dan kargo ekspor luar negeri.
-* **Efisiensi Biaya Angkut:** Kedekatan dengan Pelabuhan Rembang (10 km) secara signifikan memangkas biaya *handling* dan transportasi darat.
+* **Efisiensi Biaya Angkut:** Kedekatan dengan Pelabuhan Rembang (10 km) secara signifikan memangkas biaya *handling* dan transportasi darat. -->
 
 ---
 

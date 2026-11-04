@@ -49,9 +49,9 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { href: '/about', label_id: 'Tentang Perusahaan', label_en: 'About Company' },
+                { href: '/location', label_id: 'Lokasi Strategis Pabrik', label_en: 'Plant Strategic Location' },
                 { href: '/operations', label_id: 'Operasi & Fasilitas Pabrik', label_en: 'Operations & Facilities' },
-                { href: '/products', label_id: 'Katalog Pasir Silika', label_en: 'Silica Products Catalog' },
-                { href: '/specifications', label_id: 'Kustomisasi Spesifikasi', label_en: 'Custom Specifications' },
+                { href: '/specifications', label_id: 'Produk & Spesifikasi', label_en: 'Products & Specs' },
                 { href: '/industries', label_id: '9 Sektor Industri', label_en: '9 Industry Sectors' },
                 { href: '/logistics', label_id: 'Logistik & Jetty Pelabuhan', label_en: 'Logistics & Seaport Jetty' },
                 { href: '/contact', label_id: 'Formulir Permintaan Penawaran (RFQ)', label_en: 'Commercial RFQ Inquiries' },

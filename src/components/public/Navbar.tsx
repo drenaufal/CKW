@@ -18,6 +18,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label_id: 'Beranda', label_en: 'Home' },
     { href: '/about', label_id: 'Tentang Kami', label_en: 'About Us' },
+    { href: '/location', label_id: 'Lokasi Strategis', label_en: 'Location' },
     { href: '/operations', label_id: 'Operasi & Fasilitas', label_en: 'Operations' },
     // { href: '/products', label_id: 'Katalog Produk', label_en: 'Products' },
     { href: '/specifications', label_id: 'Produk', label_en: 'Custom Specifications' },
@@ -75,13 +76,6 @@ export default function Navbar() {
               <Globe size={15} className="text-brand-gold-500" />
               <span>{locale === 'id' ? 'ID' : 'EN'}</span>
             </button>
-
-            {/* <Link
-              href="/admin"
-              className="hidden sm:inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-bold text-brand-navy-950 bg-brand-gold-500 hover:bg-brand-gold-400 rounded-lg transition-colors shadow-sm"
-            >
-              CMS
-            </Link> */}
           </div>
         </div>
       </header>
@@ -113,23 +107,6 @@ export default function Navbar() {
               );
             })}
           </nav>
-          
-          <div className="mt-8 pt-6 border-t border-brand-navy-900 space-y-3">
-            {/* <Link
-              href="/contact"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center justify-center w-full px-4 py-3 text-sm font-bold text-white bg-brand-blue-600 hover:bg-brand-blue-500 rounded-xl transition-colors"
-            >
-              {locale === 'id' ? 'Minta Penawaran (RFQ)' : 'Request Quote (RFQ)'}
-            </Link> */}
-            {/* <Link
-              href="/admin"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center justify-center w-full px-4 py-3 text-sm font-bold text-brand-navy-950 bg-brand-gold-500 hover:bg-brand-gold-400 rounded-xl transition-colors"
-            >
-              {locale === 'id' ? 'Akses Admin CMS' : 'Admin CMS Access'}
-            </Link> */}
-          </div>
         </div>
       </div>
 

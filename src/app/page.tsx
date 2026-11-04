@@ -16,35 +16,57 @@ export default function Home() {
         <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070')] bg-cover bg-center bg-no-repeat grayscale mix-blend-overlay"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-brand-navy-950 via-brand-navy-950/90 to-transparent"></div>
         
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-24 md:py-32 lg:py-40">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy-800 border border-brand-navy-700 text-brand-gold-400 text-sm font-medium mb-8">
-              <span className="w-2 h-2 rounded-full bg-brand-gold-500 animate-pulse"></span>
-              {locale === 'id' ? 'Produsen Pasir Silika Premium' : 'Premium Silica Sand Manufacturer'}
+        <div className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy-800 border border-brand-navy-700 text-brand-gold-400 text-sm font-medium mb-8">
+                <span className="w-2 h-2 rounded-full bg-brand-gold-500 animate-pulse"></span>
+                {locale === 'id' ? 'Produsen Pasir Silika Premium' : 'Premium Silica Sand Manufacturer'}
+              </div>
+              
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] tracking-tight mb-6">
+                {locale === 'id' ? (
+                  <>Kemurnian Mineral untuk <span className="text-brand-gold-500">Masa Depan Industri</span></>
+                ) : (
+                  <>Mineral Purity for the <span className="text-brand-gold-500">Industrial Future</span></>
+                )}
+              </h1>
+              
+              <p className="text-lg md:text-xl text-neutral-300 leading-relaxed mb-10 max-w-2xl">
+                {locale === 'id' 
+                  ? 'PT. Cempaga Karya Wijaya memproses pasir silika kemurnian tinggi (SiO2 ≥ 99.3%) untuk industri kaca, surya fotovoltaik, dan pengecoran logam dengan kapasitas 50.000 MT/Bulan.'
+                  : 'PT. Cempaga Karya Wijaya processes high-purity silica sand (SiO2 ≥ 99.3%) for float glass, solar PV, and foundry industries with a capacity of 50,000 MT/Month.'}
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/products" className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-brand-gold-500 hover:bg-brand-gold-400 text-brand-navy-950 font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-gold-500/20">
+                  {locale === 'id' ? 'Lihat Produk' : 'View Products'}
+                  <ArrowRight size={20} />
+                </Link>
+                <Link href="/contact" className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 backdrop-blur-sm transition-all">
+                  {locale === 'id' ? 'Hubungi Sales' : 'Contact Sales'}
+                </Link>
+              </div>
             </div>
-            
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] tracking-tight mb-6">
-              {locale === 'id' ? (
-                <>Kemurnian Mineral untuk <span className="text-brand-gold-500">Masa Depan Industri</span></>
-              ) : (
-                <>Mineral Purity for the <span className="text-brand-gold-500">Industrial Future</span></>
-              )}
-            </h1>
-            
-            <p className="text-lg md:text-xl text-neutral-300 leading-relaxed mb-10 max-w-2xl">
-              {locale === 'id' 
-                ? 'PT. Cempaga Karya Wijaya memproses pasir silika kemurnian tinggi (SiO2 ≥ 99.3%) untuk industri kaca, surya fotovoltaik, dan pengecoran logam dengan kapasitas 50.000 MT/Bulan.'
-                : 'PT. Cempaga Karya Wijaya processes high-purity silica sand (SiO2 ≥ 99.3%) for float glass, solar PV, and foundry industries with a capacity of 50,000 MT/Month.'}
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/products" className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-brand-gold-500 hover:bg-brand-gold-400 text-brand-navy-950 font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-gold-500/20">
-                {locale === 'id' ? 'Lihat Produk' : 'View Products'}
-                <ArrowRight size={20} />
-              </Link>
-              <Link href="/contact" className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 backdrop-blur-sm transition-all">
-                {locale === 'id' ? 'Hubungi Sales' : 'Contact Sales'}
-              </Link>
+
+            {/* Right Photo */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-brand-navy-900 group">
+                <img 
+                  src="/plant.jpeg" 
+                  alt="Pabrik Pengolahan Pasir Silika PT Cempaga Karya Wijaya di Rembang" 
+                  className="w-full h-80 sm:h-96 lg:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/85 via-transparent to-transparent pointer-events-none"></div>
+                <div className="absolute bottom-4 left-4 right-4 bg-brand-navy-950/80 backdrop-blur-md border border-white/10 rounded-xl p-3.5 text-xs text-white">
+                  <div className="font-semibold text-brand-gold-400 mb-0.5">
+                    {locale === 'id' ? 'Fasilitas Pabrik Pengolahan' : 'Processing Plant Facility'}
+                  </div>
+                  <div className="text-neutral-300 text-[11px]">
+                    {locale === 'id' ? 'Rembang, Jawa Tengah • Kapasitas 50.000 MT/Bulan' : 'Rembang, Central Java • 50,000 MT/Month Capacity'}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
