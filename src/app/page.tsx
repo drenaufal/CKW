@@ -53,19 +53,19 @@ export default function Home() {
             <div className="lg:col-span-5">
               <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-brand-navy-900 group">
                 <img 
-                  src="/plant.jpeg" 
+                  src="/silika.jpeg" 
                   alt="Pabrik Pengolahan Pasir Silika PT Cempaga Karya Wijaya di Rembang" 
                   className="w-full h-80 sm:h-96 lg:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/85 via-transparent to-transparent pointer-events-none"></div>
-                <div className="absolute bottom-4 left-4 right-4 bg-brand-navy-950/80 backdrop-blur-md border border-white/10 rounded-xl p-3.5 text-xs text-white">
+                {/* <div className="absolute bottom-4 left-4 right-4 bg-brand-navy-950/80 backdrop-blur-md border border-white/10 rounded-xl p-3.5 text-xs text-white">
                   <div className="font-semibold text-brand-gold-400 mb-0.5">
                     {locale === 'id' ? 'Fasilitas Pabrik Pengolahan' : 'Processing Plant Facility'}
                   </div>
                   <div className="text-neutral-300 text-[11px]">
                     {locale === 'id' ? 'Rembang, Jawa Tengah • Kapasitas 50.000 MT/Bulan' : 'Rembang, Central Java • 50,000 MT/Month Capacity'}
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
-             <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2070" alt="Plant Operations" className="absolute inset-0 w-full h-full object-cover" />
+             <img src="/plant.jpeg" alt="Plant Operations" className="absolute inset-0 w-full h-full object-cover" />
              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/60 to-transparent"></div>
           </div>
         </div>
