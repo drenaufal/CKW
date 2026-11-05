@@ -18,7 +18,7 @@ export default function Home() {
         
         <div className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-9">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-navy-800 border border-brand-navy-700 text-brand-gold-400 text-sm font-medium mb-8">
                 <span className="w-2 h-2 rounded-full bg-brand-gold-500 animate-pulse"></span>
                 {locale === 'id' ? 'Produsen Pasir Silika Premium' : 'Premium Silica Sand Manufacturer'}
@@ -26,16 +26,18 @@ export default function Home() {
               
               <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] tracking-tight mb-6">
                 {locale === 'id' ? (
-                  <>Kemurnian Mineral untuk <span className="text-brand-gold-500">Masa Depan Industri</span></>
+                  // <>Kemurnian Mineral untuk <span className="text-brand-gold-500">Masa Depan Industri</span></>
+                  <>PT. Cempaga Karya Wijaya</>
                 ) : (
-                  <>Mineral Purity for the <span className="text-brand-gold-500">Industrial Future</span></>
+                  // <>Mineral Purity for the <span className="text-brand-gold-500">Industrial Future</span></>
+                  <>PT. Cempaga Karya Wijaya</>
                 )}
               </h1>
               
               <p className="text-lg md:text-xl text-neutral-300 leading-relaxed mb-10 max-w-2xl">
                 {locale === 'id' 
-                  ? 'PT. Cempaga Karya Wijaya memproses pasir silika kemurnian tinggi (SiO2 ≥ 99.3%) untuk industri kaca, surya fotovoltaik, dan pengecoran logam dengan kapasitas 50.000 MT/Bulan.'
-                  : 'PT. Cempaga Karya Wijaya processes high-purity silica sand (SiO2 ≥ 99.3%) for float glass, solar PV, and foundry industries with a capacity of 50,000 MT/Month.'}
+                  ? 'Perusahaan pengolahan pasir silika modern yang didirikan untuk memenuhi permintaan yang terus meningkat akan pasir silika berkualitas premium di seluruh Indonesia dan pasar internasional.'
+                  : 'A modern silica sand processing company established to meet the growing demand for premium-grade silica sand across Indonesia and international markets.'}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
@@ -50,7 +52,7 @@ export default function Home() {
             </div>
 
             {/* Right Photo */}
-            <div className="lg:col-span-5">
+            {/* <div className="lg:col-span-5">
               <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-brand-navy-900 group">
                 <img 
                   src="/silika.jpeg" 
@@ -58,16 +60,16 @@ export default function Home() {
                   className="w-full h-80 sm:h-96 lg:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-950/85 via-transparent to-transparent pointer-events-none"></div>
-                {/* <div className="absolute bottom-4 left-4 right-4 bg-brand-navy-950/80 backdrop-blur-md border border-white/10 rounded-xl p-3.5 text-xs text-white">
+                <div className="absolute bottom-4 left-4 right-4 bg-brand-navy-950/80 backdrop-blur-md border border-white/10 rounded-xl p-3.5 text-xs text-white">
                   <div className="font-semibold text-brand-gold-400 mb-0.5">
                     {locale === 'id' ? 'Fasilitas Pabrik Pengolahan' : 'Processing Plant Facility'}
                   </div>
                   <div className="text-neutral-300 text-[11px]">
                     {locale === 'id' ? 'Rembang, Jawa Tengah • Kapasitas 50.000 MT/Bulan' : 'Rembang, Central Java • 50,000 MT/Month Capacity'}
                   </div>
-                </div> */}
+                </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

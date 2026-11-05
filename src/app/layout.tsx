@@ -6,6 +6,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "PT. Cempaga Karya Wijaya | Quality in Every Grain",
   description: "Premier Indonesian industrial silica mineral processing and manufacturing enterprise.",
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" }
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
