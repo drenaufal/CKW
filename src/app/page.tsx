@@ -84,20 +84,20 @@ export default function Home() {
             </div>
             <h3 className="font-display font-bold text-3xl text-neutral-900 mb-1">50.000</h3>
             <p className="font-sans font-semibold text-brand-gold-600 text-sm uppercase tracking-wider mb-2">MT / {locale === 'id' ? 'Bulan' : 'Month'}</p>
-            <p className="text-sm text-neutral-500">
+            {/* <p className="text-sm text-neutral-500">
               {locale === 'id' ? 'Kapasitas Produksi' : 'Production Capacity'}
-            </p>
+            </p> */}
           </div>
 
           <div className="flex flex-col items-center text-center px-4 pt-8 md:pt-0">
             <div className="w-12 h-12 bg-brand-blue-50 rounded-xl flex items-center justify-center text-brand-blue-600 mb-4">
               <ShieldCheck size={24} />
             </div>
-            <h3 className="font-display font-bold text-3xl text-neutral-900 mb-1">99.3%</h3>
-            <p className="font-sans font-semibold text-brand-gold-600 text-sm uppercase tracking-wider mb-2">SiO2 {locale === 'id' ? 'Kemurnian' : 'Purity'}</p>
-            <p className="text-sm text-neutral-500">
+            <h3 className="font-display font-bold text-3xl text-neutral-900 mb-1">6x</h3>
+            <p className="font-sans font-semibold text-brand-gold-600 text-sm uppercase tracking-wider mb-2">{locale === 'id' ? 'Pemerosesan' : 'Processing'}</p>
+            {/* <p className="text-sm text-neutral-500">
               {locale === 'id' ? 'Kualitas Kaca Lembaran' : 'Float Glass Grade'}
-            </p>
+            </p> */}
           </div>
 
           <div className="flex flex-col items-center text-center px-4 pt-8 md:pt-0">
@@ -108,9 +108,9 @@ export default function Home() {
             <p className="font-sans font-semibold text-brand-gold-600 text-sm uppercase tracking-wider mb-2">
               {locale === 'id' ? 'Ke Pelabuhan' : 'To Seaport'}
             </p>
-            <p className="text-sm text-neutral-500">
+            {/* <p className="text-sm text-neutral-500">
               {locale === 'id' ? 'Pelabuhan Laut Rembang' : 'Rembang Bulk Port'}
-            </p>
+            </p> */}
           </div>
 
           <div className="flex flex-col items-center text-center px-4 pt-8 md:pt-0">
@@ -121,9 +121,9 @@ export default function Home() {
             <p className="font-sans font-semibold text-brand-gold-600 text-sm uppercase tracking-wider mb-2">
               {locale === 'id' ? 'Sektor Industri' : 'Industry Sectors'}
             </p>
-            <p className="text-sm text-neutral-500">
+            {/* <p className="text-sm text-neutral-500">
               {locale === 'id' ? 'Aplikasi Khusus' : 'Specialized Applications'}
-            </p>
+            </p> */}
           </div>
 
         </div>
