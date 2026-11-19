@@ -94,7 +94,7 @@ export default function MaintenanceScreen({ onEnablePreview }: MaintenanceScreen
       {/* Top Header */}
       <header className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center p-1 border-2 border-brand-gold-500 shadow-xl shadow-brand-gold-500/20 shrink-0">
+          <div className="w-15 h-15 bg-white rounded-full flex items-center justify-center p-1 border-2 border-brand-gold-500 shadow-xl shadow-brand-gold-500/20 shrink-0">
             <img src="/logo.png" alt="Logo PT. Cempaga Karya Wijaya" className="w-full h-full object-contain rounded-full" />
           </div>
           <div>
