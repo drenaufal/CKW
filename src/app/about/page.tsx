@@ -14,52 +14,52 @@ export default function AboutPage() {
   const environmentalPillars = [
     {
       icon: Leaf,
-      title_id: 'Efisiensi Sumber Daya',
-      title_en: 'Resource Efficiency',
-      desc_id: 'Pemanfaatan sumber daya alam secara bijak dan efisien.',
-      desc_en: 'Wise and efficient utilization of natural resources.'
+      title_id: 'Pemanfaatan Sumber Daya yang Efisien',
+      title_en: 'Efficient utilization of natural resources.',
+      desc_id: 'Pemanfaatan sumber daya alam secara bijak, bertanggung jawab, dan efisien.',
+      desc_en: 'Efficient utilization of natural resources.'
     },
     {
       icon: Droplets,
-      title_id: 'Sirkulasi & Pengelolaan Air',
-      title_en: 'Water Circulation & Management',
+      title_id: 'Pengelolaan Air yang Bertanggung Jawab',
+      title_en: 'Responsible water management during washing processes.',
       desc_id: 'Pengelolaan air tertutup dan bertanggung jawab selama proses pencucian silika.',
-      desc_en: 'Closed-loop and responsible water management during the silica washing process.'
+      desc_en: 'Responsible water management during washing processes.'
     },
     {
       icon: Wind,
-      title_id: 'Pengendalian Debu',
-      title_en: 'Dust Control',
-      desc_id: 'Sistem penanganan debu (dust suppression) di seluruh area pabrik.',
-      desc_en: 'Dust handling and suppression systems throughout the entire plant area.'
+      title_id: 'Pengendalian Debu Operasional',
+      title_en: 'Dust control throughout plant operations.',
+      desc_id: 'Sistem penanganan dan pengendalian debu di seluruh area operasional pabrik.',
+      desc_en: 'Dust control throughout plant operations.'
     },
     {
       icon: Recycle,
-      title_id: 'Pengelolaan Limbah',
-      title_en: 'Waste Management',
-      desc_id: 'Pembuangan limbah teratur serta daur ulang material jika memungkinkan.',
-      desc_en: 'Orderly waste disposal and material recycling wherever possible.'
+      title_id: 'Pengelolaan & Daur Ulang Limbah',
+      title_en: 'Proper waste management and recycling where possible.',
+      desc_id: 'Pengelolaan limbah yang tepat serta daur ulang material jika memungkinkan.',
+      desc_en: 'Proper waste management and recycling where possible.'
     },
     {
       icon: FileCheck2,
-      title_id: 'Kepatuhan Regulasi',
-      title_en: 'Regulatory Compliance',
-      desc_id: 'Kepatuhan penuh terhadap undang-undang dan peraturan lingkungan hidup Republik Indonesia.',
-      desc_en: 'Full compliance with environmental laws and regulations of the Republic of Indonesia.'
+      title_id: 'Kepatuhan Regulasi Lingkungan',
+      title_en: 'Compliance with applicable Indonesian environmental regulations.',
+      desc_id: 'Kepatuhan penuh terhadap undang-undang dan peraturan lingkungan hidup Indonesia yang berlaku.',
+      desc_en: 'Compliance with applicable Indonesian environmental regulations.'
     },
     {
       icon: ShieldCheck,
-      title_id: 'Kesehatan & Keselamatan Lingkungan Kerja',
-      title_en: 'Workplace Environmental Health & Safety',
-      desc_id: 'Menjaga area kerja tetap bersih, aman, dan ramah lingkungan.',
-      desc_en: 'Maintaining the work area to be clean, safe, and environmentally friendly.'
+      title_id: 'Lingkungan Kerja Bersih & Aman',
+      title_en: 'Maintaining a clean, safe, and environmentally responsible workplace.',
+      desc_id: 'Menjaga area tempat kerja tetap bersih, aman, dan bertanggung jawab terhadap lingkungan.',
+      desc_en: 'Maintaining a clean, safe, and environmentally responsible workplace.'
     },
     {
       icon: Sparkles,
-      title_id: 'Teknologi Ramah Lingkungan',
-      title_en: 'Eco-Friendly Technology',
-      desc_id: 'Terus menerapkan inovasi pengolahan yang meminimalkan jejak karbon.',
-      desc_en: 'Continuously adopting processing innovations that minimize the carbon footprint.'
+      title_id: 'Penyempurnaan Metode Pengolahan Ramah Lingkungan',
+      title_en: 'Continuous improvement of environmentally friendly processing methods.',
+      desc_id: 'Peningkatan berkelanjutan pada metode pemrosesan yang ramah lingkungan.',
+      desc_en: 'Continuous improvement of environmentally friendly processing methods.'
     }
   ];
 
@@ -98,18 +98,18 @@ export default function AboutPage() {
             <div className="space-y-4 text-neutral-600 leading-relaxed text-sm md:text-base">
               <p>
                 {locale === 'id' 
-                  ? 'PT. Cempaga Karya Wijaya (CKW) adalah perusahaan pengolahan pasir silika modern yang didirikan untuk memenuhi permintaan yang terus meningkat akan pasir silika berkualitas premium di seluruh Indonesia dan pasar internasional.'
-                  : 'PT. Cempaga Karya Wijaya (CKW) is a modern silica sand processing enterprise established to satisfy the growing domestic and global demand for premium-grade industrial silica sand.'}
+                  ? 'PT. Cempaga Karya Wijaya adalah perusahaan pengolahan pasir silika modern yang didirikan untuk memenuhi permintaan yang terus meningkat akan pasir silika berkualitas premium di seluruh Indonesia dan pasar internasional.'
+                  : 'PT. Cempaga Karya Wijaya is a modern silica sand processing company established to serve the growing demand for premium quality silica sand throughout Indonesia and international markets.'}
               </p>
               <p>
                 {locale === 'id'
-                  ? 'Berlokasi strategis di Rembang, Jawa Tengah, pabrik pengolahan kami menggabungkan teknologi pencucian hidrolik bertekanan tinggi, pemurnian magnetik basah (WHIMS), pencampuran homogen, dan pemisahan ukuran canggih dengan jaringan logistik efisien.'
-                  : 'Strategically situated in Rembang, Central Java, our processing plant integrates high-pressure hydraulic washing, wet high-intensity magnetic separation (WHIMS), mechanical homogenization, and precision grading screens.'}
+                  ? 'Berlokasi strategis di Rembang, Jawa Tengah, pabrik pengolahan kami yang baru dibangun menggabungkan teknologi pencucian, pemurnian, pencampuran, dan pemisahan ukuran yang canggih dengan jaringan logistik yang efisien untuk menghasilkan produk pasir silika berkualitas tinggi bagi berbagai aplikasi industri.'
+                  : 'Located strategically in Rembang, Central Java, our newly constructed processing plant combines advanced washing, purification, blending, and sizing technology with an efficient logistics network to deliver high-quality silica sand products for various industrial applications.'}
               </p>
               <p>
                 {locale === 'id'
-                  ? 'Pabrik kami dikelola oleh tim manajemen berpengalaman dengan keahlian luas di bidang penambangan silika, pemrosesan mineral, pengujian mutu laboratorium ASTM, dan ekspor internasional.'
-                  : 'Our plant is operated by seasoned industry veterans with deep expertise in silica geology, mineral beneficiation, ASTM testing protocols, and bulk maritime logistics.'}
+                  ? 'Pabrik kami didirikan oleh tim manajemen berpengalaman dengan keahlian luas di bidang penambangan silika, pengolahan mineral, pemasaran domestik, dan ekspor internasional. Kombinasi pengetahuan teknis dan pengalaman operasional ini memungkinkan kami untuk secara konsisten memasok produk yang memenuhi persyaratan kualitas dari industri yang menuntut.'
+                  : 'Our plant has been established by an experienced management team with extensive expertise in silica mining, mineral processing, domestic marketing, and international exports. This combination of technical knowledge and operational experience enables us to consistently supply products that meet the quality requirements of demanding industries.'}
               </p>
             </div>
           </div>
@@ -147,7 +147,7 @@ export default function AboutPage() {
               <p className="text-base md:text-lg text-neutral-300 leading-relaxed font-normal bg-brand-navy-900/60 p-6 rounded-2xl border border-brand-navy-800">
                 {locale === 'id'
                   ? 'Menjadi produsen dan pemasok pasir silika olahan berkualitas premium terkemuka di Indonesia, yang dikenal karena keunggulan, inovasi, keberlanjutan, dan layanan yang andal di pasar domestik maupun internasional.'
-                  : 'To become the premier producer and supplier of high-purity processed silica sand in Indonesia, renowned for technical excellence, continuous innovation, sustainability, and dependable commercial partnerships worldwide.'}
+                  : 'To become Indonesia’s leading producer and supplier of premium quality processed silica sand, recognized for excellence, innovation, sustainability, and reliable service in both domestic and international markets.'}
               </p>
             </div>
             
@@ -157,30 +157,34 @@ export default function AboutPage() {
                   <Target size={24} />
                 </div>
                 <h3 className="font-display font-bold text-2xl text-white">
-                  {locale === 'id' ? 'Misi Strategis' : 'Strategic Missions'}
+                  {locale === 'id' ? 'Misi Perusahaan' : 'Mission'}
                 </h3>
               </div>
               <ul className="space-y-3.5">
                 {[
                   {
-                    id: 'Menghasilkan produk pasir silika berkualitas tinggi yang secara konsisten memenuhi spesifikasi ketat pelanggan industri.',
-                    en: 'Produce high-purity silica products consistently matching demanding industrial client specifications.'
+                    id: 'Menghasilkan produk pasir silika berkualitas tinggi yang secara konsisten memenuhi spesifikasi pelanggan.',
+                    en: 'To produce high-quality silica sand products that consistently meet customer specifications.'
                   },
                   {
-                    id: 'Membangun kemitraan jangka panjang melalui pasokan yang andal, jaminan mutu teruji, dan layanan profesional.',
-                    en: 'Establish sustainable long-term partnerships backed by reliable supply, QA protocols, and responsive service.'
+                    id: 'Membangun kemitraan jangka panjang melalui pasokan yang andal, jaminan kualitas, dan layanan profesional.',
+                    en: 'To establish long-term partnerships through reliable supply, quality assurance, and professional service.'
                   },
                   {
-                    id: 'Terus meningkatkan teknologi pengolahan mineral dan efisiensi operasional pabrik yang ramah lingkungan.',
-                    en: 'Continuously advance beneficiation technologies, water recycling, and operational efficiency.'
+                    id: 'Terus meningkatkan teknologi pengolahan dan efisiensi operasional.',
+                    en: 'To continuously improve processing technology and operational efficiency.'
                   },
                   {
-                    id: 'Menciptakan nilai berkelanjutan bagi pelanggan, mitra pemegang saham, karyawan, dan masyarakat sekitar.',
-                    en: 'Create lasting value for industrial clients, shareholders, workforce, and host communities.'
+                    id: 'Menciptakan nilai berkelanjutan bagi pelanggan, pemegang saham, karyawan, dan masyarakat sekitar.',
+                    en: 'To create sustainable value for customers, shareholders, employees, and local communities.'
                   },
                   {
-                    id: 'Mendukung pertumbuhan industri hilir nasional dan ekspansi pasar ekspor regional.',
-                    en: 'Support Indonesian downstream industrialization and regional ASEAN export growth.'
+                    id: 'Mendukung perkembangan industri Indonesia dengan menyediakan produk pasir silika kelas dunia.',
+                    en: 'To support Indonesia’s industrial development by providing world-class silica sand products.'
+                  },
+                  {
+                    id: 'Memperluas keberadaan kami di pasar ekspor regional dan global.',
+                    en: 'To expand our presence in regional and global export markets.'
                   }
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
@@ -214,43 +218,43 @@ export default function AboutPage() {
                 title_id: 'Integritas',
                 title_en: 'Integrity',
                 desc_id: 'Menjalankan bisnis dengan jujur, beretika, dan transparan.',
-                desc_en: 'Conducting business honestly, ethically, and transparently.'
+                desc_en: 'We conduct business honestly, ethically, and transparently.'
               },
               {
                 title_id: 'Kualitas',
                 title_en: 'Quality',
                 desc_id: 'Berkomitmen menghadirkan produk yang secara konsisten memenuhi atau melampaui harapan pelanggan.',
-                desc_en: 'Committed to delivering products that consistently meet or exceed customer expectations.'
+                desc_en: 'We are committed to delivering products that consistently meet or exceed customer expectations.'
               },
               {
                 title_id: 'Keamanan (K3)',
-                title_en: 'Safety (OHS)',
+                title_en: 'Safety',
                 desc_id: 'Memprioritaskan keselamatan dan kesejahteraan karyawan, kontraktor, dan pengunjung di area operasional.',
-                desc_en: 'Prioritizing the safety and well-being of employees, contractors, and visitors across operational areas.'
+                desc_en: 'We prioritize the safety and wellbeing of our employees, contractors, and visitors.'
               },
               {
                 title_id: 'Keandalan',
                 title_en: 'Reliability',
                 desc_id: 'Menyediakan pasokan stabil yang dapat diandalkan dan memastikan pengiriman tepat waktu untuk setiap pelanggan.',
-                desc_en: 'Providing a stable, dependable supply and ensuring punctual delivery for every customer.'
+                desc_en: 'We strive to provide dependable supply and timely delivery for every customer.'
               },
               {
                 title_id: 'Kerja Sama',
                 title_en: 'Teamwork',
                 desc_id: 'Percaya bahwa kolaborasi erat dan sikap saling menghormati menciptakan kesuksesan yang berkelanjutan.',
-                desc_en: 'Believing that close collaboration and mutual respect create sustainable success.'
+                desc_en: 'We believe collaboration and mutual respect create lasting success.'
               },
               {
                 title_id: 'Peningkatan Berkelanjutan',
                 title_en: 'Continuous Improvement',
                 desc_id: 'Terus berinvestasi dalam teknologi pengolahan modern, pengembangan SDM, dan keunggulan operasional.',
-                desc_en: 'Continuously investing in modern processing technology, human resource development, and operational excellence.'
+                desc_en: 'We continually invest in technology, people, and operational excellence.'
               },
               {
                 title_id: 'Fokus Pelanggan',
                 title_en: 'Customer Focus',
                 desc_id: 'Kepuasan pelanggan adalah inti dari semua aktivitas bisnis yang kami lakukan.',
-                desc_en: 'Customer satisfaction is at the core of all our business activities.'
+                desc_en: 'Customer satisfaction is at the center of everything we do.'
               }
             ].map((val, idx) => (
               <div key={idx} className="bg-white border border-neutral-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
@@ -328,6 +332,11 @@ export default function AboutPage() {
                 );
               })}
             </div>
+            <p className="mt-6 text-neutral-600 text-sm md:text-base leading-relaxed italic bg-emerald-50/50 border border-emerald-200/50 p-4 rounded-xl">
+              {locale === 'id'
+                ? 'Kami percaya bahwa operasi yang berkelanjutan sangat penting bagi keberhasilan bisnis jangka panjang dan pengelolaan sumber daya alam yang bertanggung jawab.'
+                : 'We believe that sustainable operations are essential for long-term business success and responsible stewardship of natural resources.'}
+            </p>
           </div>
 
           {/* Partnership Commitment Card */}
@@ -339,15 +348,15 @@ export default function AboutPage() {
                   <Handshake size={22} />
                 </div>
                 <h3 className="font-display font-bold text-xl md:text-2xl text-white">
-                  {locale === 'id' ? 'Komitmen Kemitraan' : 'Partnership Commitment'}
+                  {locale === 'id' ? 'Komitmen' : 'Commitment'}
                 </h3>
               </div>
 
               <div className="space-y-4 text-neutral-200 text-sm md:text-base leading-relaxed border-l-2 border-brand-gold-500/60 pl-6">
                 <p>
                   {locale === 'id'
-                    ? 'PT. Cempaga Karya Wijaya berdedikasi menjadi mitra strategis terpercaya bagi industri manufaktur yang membutuhkan pasokan pasir silika premium. Melalui perpaduan teknologi pengolahan modern, logistik strategis, manajemen berpengalaman, dan komitmen mutu tanpa kompromi, kami siap mendukung daya saing industri nasional dan internasional.'
-                    : 'PT. Cempaga Karya Wijaya is dedicated to being a trusted strategic partner for manufacturing industries requiring premium silica sand supplies. Through a combination of modern processing technology, strategic logistics, seasoned management, and an uncompromising commitment to quality, we are ready to support the competitiveness of national and international industries.'}
+                    ? 'Di PT. Cempaga Karya Wijaya, kami berdedikasi untuk menjadi mitra tepercaya bagi industri yang membutuhkan pasir silika premium. Melalui teknologi pemrosesan modern, logistik strategis, manajemen berpengalaman, dan komitmen teguh terhadap kualitas, kami siap mendukung pertumbuhan berkelanjutan sektor manufaktur Indonesia sekaligus memperluas kehadiran kami di pasar internasional.'
+                    : 'At PT. Cempaga Karya Wijaya, we are dedicated to becoming a trusted partner for industries requiring premium silica sand. Through modern processing technology, strategic logistics, experienced management, and an unwavering commitment to quality, we are ready to support the continued growth of Indonesia’s manufacturing sector while expanding our presence in international markets.'}
                 </p>
               </div>
 

@@ -37,7 +37,7 @@ export default function Home() {
               <p className="text-lg md:text-xl text-neutral-300 leading-relaxed mb-10 max-w-2xl">
                 {locale === 'id' 
                   ? 'Perusahaan pengolahan pasir silika modern yang didirikan untuk memenuhi permintaan yang terus meningkat akan pasir silika berkualitas premium di seluruh Indonesia dan pasar internasional.'
-                  : 'A modern silica sand processing company established to meet the growing demand for premium-grade silica sand across Indonesia and international markets.'}
+                  : 'PT. Cempaga Karya Wijaya is a modern silica sand processing company established to serve the growing demand for premium quality silica sand throughout Indonesia and international markets.'}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
@@ -143,8 +143,8 @@ export default function Home() {
             </p>
             <p className="text-lg text-neutral-600 mb-8 leading-relaxed">
               {locale === 'id'
-                ? 'Kami menghadirkan pasir silika berkualitas premium yang bersumber dari Kalimantan Tengah dan didistribusikan secara efisien melalui jaringan logistik terpadu untuk memenuhi spesifikasi ketat pelanggan.'
-                : 'We deliver premium quality silica sand sourced from Central Kalimantan and distributed efficiently through our integrated logistics network to meet strict customer specifications.'}
+                ? 'Pabrik kami didirikan oleh tim manajemen berpengalaman dengan keahlian luas di bidang penambangan silika, pengolahan mineral, pemasaran domestik, dan ekspor internasional. Kombinasi pengetahuan teknis pengalaman operasional dan ini memungkinkan kami untuk secara konsisten memasok produk yang memenuhi persyaratan kualitas dari industri yang menuntut.'
+                : 'Our plant has been established by an experienced management team with extensive expertise in silica mining, mineral processing, domestic marketing, and international exports. This combination of technical knowledge and operational experience enables us to consistently supply products that meet the quality requirements of demanding industries.'}
             </p>
             <Link href="/about" className="inline-flex items-center font-semibold text-brand-blue-600 hover:text-brand-gold-600 transition-colors">
               {locale === 'id' ? 'Pelajari Lebih Lanjut Tentang Kami' : 'Learn More About Us'}

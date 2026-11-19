@@ -17,55 +17,55 @@ export default function IndustriesPage() {
       num: '01',
       icon: Layers,
       title_id: 'Pembuatan Kaca',
-      title_en: 'Glass Manufacturing'
+      title_en: 'Glass manufacturing'
     },
     {
       num: '02',
       icon: SunMedium,
       title_id: 'Panel Surya & Fotovoltaik',
-      title_en: 'Solar & Photovoltaics'
+      title_en: 'Solar panel and photovoltaic glass production'
     },
     {
       num: '03',
       icon: Factory,
       title_id: 'Pembuatan Semen',
-      title_en: 'Cement Manufacturing'
+      title_en: 'Cement manufacturing'
     },
     {
       num: '04',
       icon: Grid,
       title_id: 'Industri Keramik',
-      title_en: 'Ceramics Industry'
+      title_en: 'Ceramic industries'
     },
     {
       num: '05',
       icon: Leaf,
       title_id: 'Industri Pupuk',
-      title_en: 'Fertilizer Industry'
+      title_en: 'Fertilizer industries'
     },
     {
       num: '06',
       icon: Building2,
       title_id: 'Bahan Bangunan',
-      title_en: 'Building Materials'
+      title_en: 'Construction materials'
     },
     {
       num: '07',
       icon: Filter,
       title_id: 'Mineral Industri',
-      title_en: 'Industrial Minerals'
+      title_en: 'Industrial minerals'
     },
     {
       num: '08',
       icon: Flame,
       title_id: 'Pengecoran',
-      title_en: 'Foundry & Metal Casting'
+      title_en: 'Foundries'
     },
     {
       num: '09',
       icon: Cpu,
       title_id: 'Industri Manufaktur Khusus Lainnya',
-      title_en: 'Other Specialized Manufacturing'
+      title_en: 'Other specialized manufacturing industries'
     }
   ];
 
@@ -83,8 +83,8 @@ export default function IndustriesPage() {
           </h1>
           <p className="text-neutral-300 max-w-3xl mx-auto text-sm md:text-base leading-relaxed">
             {locale === 'id'
-              ? 'Produk pasir silika PT. Cempaga Karya Wijaya mendukung berbagai sektor industri manufaktur strategis.'
-              : 'PT. Cempaga Karya Wijaya silica sand products support diverse strategic manufacturing industry sectors.'}
+              ? 'Produk pasir silika kami mendukung berbagai industri manufaktur, termasuk:'
+              : 'Our silica sand products support numerous manufacturing industries, including:'}
           </p>
         </div>
       </div>
@@ -111,8 +111,8 @@ export default function IndustriesPage() {
 
           <p className="text-neutral-600 text-sm md:text-base leading-relaxed">
             {locale === 'id'
-              ? 'Produk pasir silika PT. Cempaga Karya Wijaya mendukung berbagai sektor industri manufaktur strategis:'
-              : 'PT. Cempaga Karya Wijaya silica sand products support diverse strategic manufacturing industry sectors:'}
+              ? 'Produk pasir silika kami mendukung berbagai industri manufaktur, termasuk:'
+              : 'Our silica sand products support numerous manufacturing industries, including:'}
           </p>
         </div>
 
@@ -162,7 +162,7 @@ export default function IndustriesPage() {
             <h3 className="font-display font-bold text-xl md:text-2xl lg:text-3xl text-white leading-relaxed md:leading-snug max-w-none">
               {locale === 'id' 
                 ? 'Basis pelanggan utama kami tersebar di sepanjang koridor industri antara Semarang dan Surabaya, dengan peluang tambahan untuk pasar ekspor.'
-                : 'Our primary customer base is spread along the industrial corridor between Semarang and Surabaya, with additional opportunities for export markets.'}
+                : 'Our primary customer base extends throughout the industrial corridor between Semarang and Surabaya, with additional opportunities for export markets.'}
             </h3>
           </div>
         </div>

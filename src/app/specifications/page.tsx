@@ -50,7 +50,7 @@ export default function SpecificationsPage() {
       num: '05',
       icon: Settings2,
       title_id: 'Produk Ukuran Partikel Sesuai Pesanan (Custom Sized Silica Sand)',
-      title_en: 'Custom Sized Silica Sand',
+      title_en: 'Custom Particle Size Products',
       desc_id: 'Sesuai distribusi ukuran partikel pelanggan.',
       desc_en: 'Tailored to customer particle size distribution.'
     }
@@ -62,7 +62,7 @@ export default function SpecificationsPage() {
       num: '01',
       icon: FlaskConical,
       title_id: 'Komposisi Kimia',
-      title_en: 'Chemical Composition',
+      title_en: 'Chemical composition',
       desc_id: 'Kadar SiO2, Fe2O3, Al2O3, TiO2, dan LOI.',
       desc_en: 'Assay levels of SiO2, Fe2O3, Al2O3, TiO2, and LOI.'
     },
@@ -70,7 +70,7 @@ export default function SpecificationsPage() {
       num: '02',
       icon: Filter,
       title_id: 'Distribusi Ukuran Partikel',
-      title_en: 'Particle Size Distribution',
+      title_en: 'Particle size distribution',
       desc_id: 'Mesh 30–100, 40–120, AFS fineness, dll.',
       desc_en: 'Mesh 30–100, 40–120, AFS fineness, etc.'
     },
@@ -78,7 +78,7 @@ export default function SpecificationsPage() {
       num: '03',
       icon: SunMedium,
       title_id: 'Kandungan Kelembapan',
-      title_en: 'Moisture Content',
+      title_en: 'Moisture content',
       desc_id: 'Kering oven/kiln (≤ 0.1% - 0.2%) atau lembap alami.',
       desc_en: 'Kiln/oven dried (≤ 0.1% - 0.2%) or semi-wet natural moisture.'
     },
@@ -86,7 +86,7 @@ export default function SpecificationsPage() {
       num: '04',
       icon: ShieldCheck,
       title_id: 'Tingkat Kebersihan',
-      title_en: 'Particle Cleanliness',
+      title_en: 'Cleanliness',
       desc_id: 'Bebas tanah lempung (clay-free) dan bebas bahan organik.',
       desc_en: 'Clay-free and free from organic contaminants.'
     },
@@ -94,7 +94,7 @@ export default function SpecificationsPage() {
       num: '05',
       icon: Package,
       title_id: 'Persyaratan Pengemasan',
-      title_en: 'Packaging Requirements',
+      title_en: 'Packaging requirements',
       desc_id: 'Jumbo Bag (1.0 - 1.5 MT) dengan/tanpa PE liner, kantong 50 kg, atau curah (bulk truk/tongkang).',
       desc_en: 'Jumbo Bag (1.0 - 1.5 MT) with/without PE liner, 50 kg bags, or bulk (truck/barge).'
     }
@@ -110,12 +110,12 @@ export default function SpecificationsPage() {
             {locale === 'id' ? 'Produk & Kustomisasi Spesifikasi' : 'Products & Custom Specifications'}
           </span>
           <h1 className="font-display font-extrabold text-3xl md:text-5xl text-white mb-4">
-            {locale === 'id' ? 'Produk & Kustomisasi Spesifikasi' : 'Products & Tailor-Made Specifications'}
+            {locale === 'id' ? 'Produk & Kustomisasi Spesifikasi' : 'Products'}
           </h1>
           <p className="text-neutral-300 max-w-3xl mx-auto text-sm md:text-base leading-relaxed">
             {locale === 'id'
               ? 'PT. Cempaga Karya Wijaya memasok pasir silika olahan yang disesuaikan secara khusus (tailor-made) dengan kebutuhan teknis industri pelanggan.'
-              : 'PT. Cempaga Karya Wijaya supplies processed silica sand custom-tailored to the precise technical requirements of our industrial clients.'}
+              : 'PT. Cempaga Karya Wijaya supplies processed silica sand tailored to customer specifications for various industrial applications.'}
           </p>
         </div>
       </div>

@@ -18,61 +18,61 @@ export default function LogisticsPage() {
       num: '01',
       icon: Factory,
       title_id: 'Pabrik pengolahan modern yang baru dibangun.',
-      title_en: 'Newly constructed, modern processing plant.'
+      title_en: 'Newly constructed modern processing plant'
     },
     {
       num: '02',
       icon: MapPin,
       title_id: 'Lokasi strategis tepat di sisi jalan raya nasional 4 lajur.',
-      title_en: 'Strategic location directly alongside the 4-lane national highway.'
+      title_en: 'Strategic location adjacent to the national highway'
     },
     {
       num: '03',
       icon: Anchor,
       title_id: 'Hanya berjarak 10 km dari Pelabuhan Rembang.',
-      title_en: 'Only 10 km distance from Rembang Seaport.'
+      title_en: 'Only 10 km from Rembang Port'
     },
     {
       num: '04',
       icon: ShieldCheck,
       title_id: 'Pasokan pasir silika yang andal dalam jangka panjang.',
-      title_en: 'Reliable, long-term guaranteed silica sand supply.'
+      title_en: 'Reliable long-term silica sand supply'
     },
     {
       num: '05',
       icon: GitMerge,
       title_id: 'Kemitraan penambangan dan pengolahan yang terintegrasi.',
-      title_en: 'Integrated mining and beneficiation processing partnership.'
+      title_en: 'Integrated mining and processing partnership'
     },
     {
       num: '06',
       icon: Users,
       title_id: 'Tim manajemen berpengalaman di industri silika & mineral.',
-      title_en: 'Experienced management team in silica and mineral industries.'
+      title_en: 'Experienced management team'
     },
     {
       num: '07',
       icon: Award,
       title_id: 'Kualitas produk yang konsisten dan teruji lab.',
-      title_en: 'Consistent, laboratory-verified product quality.'
+      title_en: 'Consistent product quality'
     },
     {
       num: '08',
       icon: Zap,
       title_id: 'Kemampuan produksi fleksibel (hingga 50.000 MT/bulan).',
-      title_en: 'Flexible production capability (up to 50,000 MT/month).'
+      title_en: 'Flexible production capability'
     },
     {
       num: '09',
       icon: Truck,
       title_id: 'Jaringan logistik darat dan laut yang efisien.',
-      title_en: 'Efficient multimodal overland and maritime logistics network.'
+      title_en: 'Efficient logistics network'
     },
     {
       num: '10',
       icon: HeartHandshake,
       title_id: 'Komitmen kuat terhadap kepuasan jangka panjang pelanggan.',
-      title_en: 'Strong commitment to long-term customer satisfaction.'
+      title_en: 'Strong commitment to customer satisfaction'
     }
   ];
 
@@ -86,12 +86,12 @@ export default function LogisticsPage() {
             {locale === 'id' ? 'Logistik, Distribusi & Keunggulan Kompetitif' : 'Logistics, Distribution & Competitive Edge'}
           </span>
           <h1 className="font-display font-extrabold text-3xl md:text-5xl text-white mb-4">
-            {locale === 'id' ? 'Logistik, Distribusi & Keunggulan Kompetitif' : 'Logistics, Distribution & Competitive Advantages'}
+            {locale === 'id' ? 'Logistik & Distribusi' : 'Logistics & Distribution'}
           </h1>
           <p className="text-neutral-300 max-w-3xl mx-auto text-sm md:text-base leading-relaxed">
             {locale === 'id'
-              ? 'Logistik yang efisien merupakan salah satu keunggulan kompetitif utama PT. Cempaga Karya Wijaya.'
-              : 'Efficient logistics is one of PT. Cempaga Karya Wijaya\'s primary competitive advantages.'}
+              ? 'Logistik yang efisien merupakan salah satu keunggulan kompetitif utama kami.'
+              : 'Efficient logistics are one of our major competitive advantages.'}
           </p>
         </div>
       </div>
@@ -131,13 +131,13 @@ export default function LogisticsPage() {
                 </div>
 
                 <h3 className="font-display font-bold text-xl md:text-2xl text-brand-navy-950 mb-3">
-                  {locale === 'id' ? 'Logistik Bahan Baku' : 'Raw Material Logistics'}
+                  {locale === 'id' ? 'Bahan Baku' : 'Raw Materials'}
                 </h3>
 
                 <p className="text-neutral-600 text-sm md:text-base leading-relaxed">
                   {locale === 'id'
-                    ? 'Pasir silika premium diangkut dari Kalimantan Tengah ke Pelabuhan Rembang menggunakan armada tongkang laut berdasarkan kontrak jangka panjang.'
-                    : 'Premium silica sand is transported from Central Kalimantan to Rembang Port using ocean barges under long-term supply contracts.'}
+                    ? 'Pasir silika premium diangkut dari Kalimantan Tengah ke Pelabuhan Rembang berdasarkan perjanjian pasokan jangka panjang.'
+                    : 'Premium silica sand is transported from Central Kalimantan to Rembang Port under long-term supply arrangements.'}
                 </p>
               </div>
 
@@ -160,7 +160,7 @@ export default function LogisticsPage() {
                 </div>
 
                 <h3 className="font-display font-bold text-xl md:text-2xl text-brand-navy-950 mb-4">
-                  {locale === 'id' ? 'Logistik Produk Jadi' : 'Finished Goods Logistics'}
+                  {locale === 'id' ? 'Produk Jadi' : 'Finished Products'}
                 </h3>
 
                 <div className="space-y-4">
@@ -170,12 +170,12 @@ export default function LogisticsPage() {
                     </div>
                     <div>
                       <h4 className="font-display font-bold text-sm md:text-base text-neutral-900 mb-1">
-                        {locale === 'id' ? 'Pengiriman Darat' : 'Inland Trucking'}
+                        {locale === 'id' ? 'Pengiriman Darat' : 'Overland Delivery'}
                       </h4>
                       <p className="text-neutral-600 text-xs md:text-sm leading-relaxed">
                         {locale === 'id'
-                          ? 'Pengiriman darat via armada truk kapasitas hingga 40 Metrik Ton langsung ke pabrik pelanggan.'
-                          : 'Overland delivery via truck fleets with capacities up to 40 Metric Tons directly to customer plants.'}
+                          ? 'Produk dikirim melalui jalan darat menggunakan truk dengan kapasitas hingga 40 metrik ton langsung ke fasilitas pelanggan.'
+                          : 'Products are delivered by road using trucks with capacities of up to 40 metric tons directly to customer facilities.'}
                       </p>
                     </div>
                   </div>
@@ -186,12 +186,12 @@ export default function LogisticsPage() {
                     </div>
                     <div>
                       <h4 className="font-display font-bold text-sm md:text-base text-neutral-900 mb-1">
-                        {locale === 'id' ? 'Pengiriman Laut & Ekspor' : 'Maritime & Export Shipping'}
+                        {locale === 'id' ? 'Pengiriman Ekspor' : 'Export Shipments'}
                       </h4>
                       <p className="text-neutral-600 text-xs md:text-sm leading-relaxed">
                         {locale === 'id'
-                          ? 'Pengiriman laut & ekspor dikapalkan langsung via Pelabuhan Rembang, meminimalkan biaya handling darat.'
-                          : 'Maritime shipments and exports dispatched directly via Rembang Port, minimizing overland handling costs.'}
+                          ? 'Pengiriman ekspor juga dapat ditangani secara efisien melalui Pelabuhan Rembang terdekat, meminimalkan biaya transportasi darat.'
+                          : 'Export shipments can also be efficiently handled through nearby Rembang Port, minimizing inland transportation costs.'}
                       </p>
                     </div>
                   </div>
@@ -216,7 +216,7 @@ export default function LogisticsPage() {
                 <span>{locale === 'id' ? 'Bagian 2: Nilai Tambah Strategis' : 'Part 2: Strategic Value'}</span>
               </div>
               <h2 className="font-display font-bold text-2xl md:text-4xl text-neutral-900">
-                {locale === 'id' ? '10 Keunggulan Kompetitif Utama' : '10 Key Competitive Advantages'}
+                {locale === 'id' ? 'Keunggulan Kompetitif Kami' : 'Our Competitive Advantages'}
               </h2>
             </div>
             <div className="inline-flex items-center gap-2 text-xs md:text-sm text-neutral-500">

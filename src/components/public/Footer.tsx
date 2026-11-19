@@ -30,8 +30,8 @@ export default function Footer() {
             </div>
             <p className="text-neutral-400 text-sm leading-relaxed">
               {locale === 'id' 
-                ? 'Perusahaan pengolahan pasir silika modern yang didirikan untuk memenuhi permintaan akan pasir silika berkualitas premium (SiO2 ≥ 99.3%, Fe2O3 ultra-rendah) di seluruh Indonesia dan pasar internasional.'
-                : 'Modern silica sand processing enterprise established to satisfy high demand for premium quality silica sand (SiO2 ≥ 99.3%, ultra-low Fe2O3) across Indonesia and international markets.'}
+                ? 'Perusahaan pengolahan pasir silika modern yang didirikan untuk memenuhi permintaan yang terus meningkat akan pasir silika berkualitas premium di seluruh Indonesia dan pasar internasional.'
+                : 'PT. Cempaga Karya Wijaya is a modern silica sand processing company established to serve the growing demand for premium quality silica sand throughout Indonesia and international markets.'}
             </p>
             <div className="pt-2">
               <span className="inline-block px-3 py-1 bg-brand-navy-900 border border-brand-navy-800 rounded-full text-xs font-mono text-brand-gold-400">

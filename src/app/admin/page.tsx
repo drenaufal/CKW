@@ -5,7 +5,7 @@ import { useAppContext } from '@/context/AppContext';
 import { 
   Shield, LayoutDashboard, Package, MailOpen, Activity, 
   Settings, LogOut, CheckCircle, Plus, Edit, Trash2, Globe, Send, Bell,
-  Wrench, AlertTriangle, Power, Save, ExternalLink, RefreshCw
+  Wrench, AlertTriangle, Power, Save, ExternalLink, RefreshCw, X
 } from 'lucide-react';
 import { ProductItem } from '@/services/dataStorage';
 
@@ -39,6 +39,87 @@ export default function AdminPage() {
 
   // Toast
   const [toastMessage, setToastMessage] = useState('');
+
+  // Product Edit / Create Modal State
+  const [editingProduct, setEditingProduct] = useState<ProductItem | null>(null);
+  const [isNewProduct, setIsNewProduct] = useState(false);
+  const [isSavingProduct, setIsSavingProduct] = useState(false);
+
+  const emptyProduct: ProductItem = {
+    id: 0,
+    name_id: '',
+    name_en: '',
+    slug: '',
+    shortDescription_id: '',
+    shortDescription_en: '',
+    description_id: '',
+    description_en: '',
+    chemicalComposition_id: 'SiO2 ≥ 99.3%, Fe2O3 ≤ 0.020%',
+    chemicalComposition_en: 'SiO2 ≥ 99.3%, Fe2O3 ≤ 0.020%',
+    particleSize_id: 'Mesh 30 - 100',
+    particleSize_en: 'Mesh 30 - 100',
+    moistureContent_id: '≤ 0.2%',
+    moistureContent_en: '≤ 0.2%',
+    cleanliness_id: 'Bebas kotoran organik dan lempung',
+    cleanliness_en: 'Free of clay and organic matter',
+    packagingRequirement_id: 'Jumbo Bag 1.0 - 1.5 MT',
+    packagingRequirement_en: 'Jumbo Bag 1.0 - 1.5 MT',
+    imageUrl: '/silika.jpeg',
+    status: 'published',
+    featured: false,
+    sortOrder: products.length + 1,
+    assaySiO2: '≥ 99.3%',
+    assayFe2O3: '≤ 0.020%',
+    assayAl2O3: '≤ 0.20%',
+    assayTiO2: '≤ 0.02%',
+    assayLOI: '≤ 0.15%',
+    afsFineness: '45-50',
+    mohsHardness: '7.0',
+    specificGravity: '2.65 g/cm³',
+    bulkDensity: '1.55 MT/m³',
+    phValue: '7.0'
+  };
+
+  const handleSaveProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProduct) return;
+    setIsSavingProduct(true);
+
+    try {
+      const isNew = isNewProduct || editingProduct.id === 0;
+      const method = isNew ? 'POST' : 'PUT';
+      const autoSlug = editingProduct.slug?.trim() || editingProduct.name_id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `silica-${Date.now()}`;
+      const payload: ProductItem = {
+        ...editingProduct,
+        id: isNew ? Date.now() : editingProduct.id,
+        slug: autoSlug,
+      };
+
+      const res = await fetch('/api/products', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        if (isNew) {
+          setProducts([payload, ...products]);
+          showToast(`Produk "${payload.name_id}" berhasil ditambahkan`);
+        } else {
+          setProducts(products.map(p => p.id === payload.id ? payload : p));
+          showToast(`Produk "${payload.name_id}" berhasil diperbarui`);
+        }
+        setEditingProduct(null);
+      } else {
+        showToast(data.message || 'Gagal menyimpan produk.');
+      }
+    } catch {
+      showToast('Terjadi kesalahan koneksi saat menyimpan produk.');
+    } finally {
+      setIsSavingProduct(false);
+    }
+  };
 
   // Maintenance form state
   const [maintForm, setMaintForm] = useState({
@@ -739,8 +820,11 @@ export default function AdminPage() {
                   <p className="text-xs text-neutral-500 mt-1">Kelola data pasir silika, kemurnian kimia, dan status tampil</p>
                 </div>
                 <button 
-                  onClick={() => showToast('Fitur Tambah Produk Baru aktif di mode live DB')}
-                  className="px-4 py-2 bg-brand-gold-500 hover:bg-brand-gold-400 text-brand-navy-950 font-bold rounded-xl text-xs flex items-center gap-2"
+                  onClick={() => {
+                    setEditingProduct({ ...emptyProduct });
+                    setIsNewProduct(true);
+                  }}
+                  className="px-4 py-2 bg-brand-gold-500 hover:bg-brand-gold-400 text-brand-navy-950 font-bold rounded-xl text-xs flex items-center gap-2 transition-colors shadow"
                 >
                   <Plus size={16} />
                   <span>Tambah Produk</span>
@@ -785,8 +869,12 @@ export default function AdminPage() {
                         </td>
                         <td className="px-6 py-4 text-right">
                           <button 
-                            onClick={() => showToast(`Edit mode untuk ${prod.name_id}`)}
-                            className="p-1.5 text-neutral-500 hover:text-brand-blue-600 transition-colors"
+                            onClick={() => {
+                              setEditingProduct({ ...prod });
+                              setIsNewProduct(false);
+                            }}
+                            className="p-1.5 text-neutral-500 hover:text-brand-blue-600 hover:bg-neutral-100 rounded-lg transition-colors"
+                            title="Edit Produk"
                           >
                             <Edit size={16} />
                           </button>
@@ -894,6 +982,331 @@ export default function AdminPage() {
             </div>
           )}
         </div>
+
+        {/* Product Edit / Create Modal Dialog */}
+        {editingProduct && (
+          <div className="fixed inset-0 z-50 bg-brand-navy-950/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-white rounded-3xl border border-neutral-200 shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 my-auto">
+              {/* Modal Header */}
+              <div className="px-6 py-5 border-b border-neutral-200 flex items-center justify-between bg-neutral-50/50 shrink-0">
+                <div>
+                  <h3 className="font-display font-bold text-lg text-brand-navy-950">
+                    {isNewProduct ? 'Tambah Produk Pasir Silika Baru' : `Edit Produk: ${editingProduct.name_id}`}
+                  </h3>
+                  <p className="text-xs text-neutral-500 mt-0.5">
+                    Perbarui spesifikasi teknis, kadar kimia, dan deskripsi produk untuk portal publik
+                  </p>
+                </div>
+                <button
+                  onClick={() => setEditingProduct(null)}
+                  className="w-9 h-9 rounded-xl text-neutral-400 hover:text-neutral-700 hover:bg-neutral-200/60 flex items-center justify-center transition-colors"
+                  title="Tutup Form"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Modal Form Body */}
+              <form onSubmit={handleSaveProduct} className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+                
+                {/* Group 1: Informasi Dasar */}
+                <div>
+                  <h4 className="font-display font-bold text-xs uppercase tracking-wider text-brand-gold-600 mb-3 flex items-center gap-2">
+                    <span className="w-1.5 h-3.5 bg-brand-gold-500 rounded-full inline-block"></span>
+                    Informasi Dasar Produk
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Nama Produk (Bahasa Indonesia) *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={editingProduct.name_id}
+                        onChange={e => setEditingProduct({ ...editingProduct, name_id: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. Pasir Silika Kaca Float & Otomotif"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Product Name (English) *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={editingProduct.name_en}
+                        onChange={e => setEditingProduct({ ...editingProduct, name_en: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. Float & Automotive Glass Silica Sand"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        URL Slug
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.slug}
+                        onChange={e => setEditingProduct({ ...editingProduct, slug: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs font-mono focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. float-glass-silica"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                          Status Publikasi
+                        </label>
+                        <select
+                          value={editingProduct.status}
+                          onChange={e => setEditingProduct({ ...editingProduct, status: e.target.value as 'published' | 'draft' })}
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none bg-white"
+                        >
+                          <option value="published">Published (Aktif)</option>
+                          <option value="draft">Draft (Arsip)</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                          Urutan Tampil (Sort)
+                        </label>
+                        <input
+                          type="number"
+                          value={editingProduct.sortOrder || 0}
+                          onChange={e => setEditingProduct({ ...editingProduct, sortOrder: parseInt(e.target.value) || 0 })}
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Group 2: Spesifikasi Kimia & Fisik */}
+                <div className="pt-4 border-t border-neutral-100">
+                  <h4 className="font-display font-bold text-xs uppercase tracking-wider text-brand-gold-600 mb-3 flex items-center gap-2">
+                    <span className="w-1.5 h-3.5 bg-brand-gold-500 rounded-full inline-block"></span>
+                    Spesifikasi Kimia & Hasil Uji Laboratorium
+                  </h4>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Kadar Silika (SiO2)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.assaySiO2 || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, assaySiO2: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs font-mono focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. ≥ 99.30%"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Kadar Besi (Fe2O3)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.assayFe2O3 || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, assayFe2O3: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs font-mono focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. ≤ 0.020%"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        AFS Fineness
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.afsFineness || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, afsFineness: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs font-mono focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. 45-50"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Ukuran Butir / Mesh (ID)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.particleSize_id || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, particleSize_id: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. Mesh 30 - 100 (0.15 mm - 0.60 mm)"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Particle Size / Mesh (EN)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.particleSize_en || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, particleSize_en: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. Mesh 30 - 100 (0.15 mm - 0.60 mm)"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Kandungan Kelembapan (ID)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.moistureContent_id || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, moistureContent_id: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. ≤ 0.2% (Kering Kiln)"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Moisture Content (EN)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.moistureContent_en || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, moistureContent_en: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="e.g. ≤ 0.2% (Dry Kiln)"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Group 3: Kebersihan & Kemasan */}
+                <div className="pt-4 border-t border-neutral-100">
+                  <h4 className="font-display font-bold text-xs uppercase tracking-wider text-brand-gold-600 mb-3 flex items-center gap-2">
+                    <span className="w-1.5 h-3.5 bg-brand-gold-500 rounded-full inline-block"></span>
+                    Kebersihan & Persyaratan Kemasan
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Tingkat Kebersihan (ID)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.cleanliness_id || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, cleanliness_id: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="Bebas lempung dan bahan organik"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Cleanliness (EN)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.cleanliness_en || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, cleanliness_en: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="Free of clay, organic matter, and foreign debris"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Persyaratan Kemasan (ID)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.packagingRequirement_id || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, packagingRequirement_id: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="Jumbo Bag 1.0 - 1.5 MT atau Curah"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Packaging Requirements (EN)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingProduct.packagingRequirement_en || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, packagingRequirement_en: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                        placeholder="Jumbo Bag 1.0 - 1.5 MT or Bulk Barge / Truck"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Group 4: Deskripsi & Gambar */}
+                <div className="pt-4 border-t border-neutral-100">
+                  <h4 className="font-display font-bold text-xs uppercase tracking-wider text-brand-gold-600 mb-3 flex items-center gap-2">
+                    <span className="w-1.5 h-3.5 bg-brand-gold-500 rounded-full inline-block"></span>
+                    Deskripsi & Foto Produk
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Deskripsi Singkat (ID)
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={editingProduct.shortDescription_id || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, shortDescription_id: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none resize-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                        Short Description (EN)
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={editingProduct.shortDescription_en || ''}
+                        onChange={e => setEditingProduct({ ...editingProduct, shortDescription_en: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none resize-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <label className="block text-xs font-semibold text-neutral-700 mb-1.5">
+                      URL Foto Gambar
+                    </label>
+                    <input
+                      type="text"
+                      value={editingProduct.imageUrl || ''}
+                      onChange={e => setEditingProduct({ ...editingProduct, imageUrl: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs focus:border-brand-blue-600 focus:ring-1 focus:ring-brand-blue-600 outline-none"
+                      placeholder="/silika.jpeg atau https://..."
+                    />
+                  </div>
+                </div>
+
+                {/* Modal Actions */}
+                <div className="pt-4 border-t border-neutral-200 flex items-center justify-end gap-3 sticky bottom-0 bg-white py-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditingProduct(null)}
+                    className="px-5 py-2.5 rounded-xl border border-neutral-300 hover:bg-neutral-100 text-neutral-700 text-xs font-semibold transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSavingProduct}
+                    className="px-6 py-2.5 rounded-xl bg-brand-gold-500 hover:bg-brand-gold-400 text-brand-navy-950 text-xs font-bold transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
+                  >
+                    <Save size={15} />
+                    <span>{isSavingProduct ? 'Menyimpan...' : (isNewProduct ? 'Tambahkan Produk' : 'Simpan Perubahan')}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

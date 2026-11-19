@@ -17,25 +17,25 @@ export default function LocationPage() {
       num: '01',
       icon: Route,
       title_id: 'Akses Jalur Utama',
-      title_en: 'Direct Highway Access',
+      title_en: 'Adjacent to Highway',
       desc_id: 'Bersebelahan langsung dengan jalan raya nasional empat jalur di dalam Kota Rembang (jalur Pantura).',
-      desc_en: 'Directly adjacent to the 4-lane national highway corridor within Rembang City (Pantura route).'
+      desc_en: 'Adjacent to the four-lane national highway within Rembang City.'
     },
     {
       num: '02',
       icon: Anchor,
       title_id: 'Dekat Pelabuhan',
-      title_en: 'Proximity to Seaport',
+      title_en: 'Close to Port',
       desc_id: 'Berjarak sekitar 10 km dari Pelabuhan Rembang.',
-      desc_en: 'Located approximately 10 km from Rembang Seaport.'
+      desc_en: 'Approximately 10 km from Rembang Port.'
     },
     {
       num: '03',
       icon: Compass,
       title_id: 'Koridor Industri Utama',
-      title_en: 'Primary Industrial Corridor',
+      title_en: 'Major Industrial Corridors',
       desc_id: 'Berada tepat di antara koridor industri strategis Semarang dan Surabaya.',
-      desc_en: 'Positioned right between the strategic industrial manufacturing corridor of Semarang and Surabaya.'
+      desc_en: 'Conveniently positioned between the major industrial corridors of Semarang and Surabaya.'
     }
   ];
 
@@ -54,7 +54,7 @@ export default function LocationPage() {
           <p className="text-neutral-300 max-w-3xl mx-auto text-sm md:text-base leading-relaxed">
             {locale === 'id'
               ? 'PT. Cempaga Karya Wijaya memiliki lokasi yang sangat menguntungkan yang memberikan manfaat operasional dan logistik yang signifikan.'
-              : 'PT. Cempaga Karya Wijaya benefits from an exceptionally advantageous location delivering significant operational and logistics value.'}
+              : 'PT. Cempaga Karya Wijaya enjoys a highly advantageous location that provides significant operational and logistical benefits.'}
           </p>
         </div>
       </div>
@@ -134,12 +134,12 @@ export default function LocationPage() {
                 <p>
                   {locale === 'id'
                     ? 'Lokasi strategis ini memungkinkan transportasi bahan baku yang efisien dari Kalimantan Tengah dan sekaligus menyediakan pendistribusian produk pasir silika jadi, yang ekonomis kepada pelanggan di seluruh Jawa dan tujuan ekspor luar negeri.'
-                    : 'This strategic location enables efficient raw material transport from Central Kalimantan while providing economical finished silica distribution to customers across Java and export destinations.'}
+                    : 'This strategic location enables efficient transportation of raw materials from Central Kalimantan while providing economical distribution of finished silica sand products to customers throughout Java and overseas export destinations.'}
                 </p>
                 <p className="font-medium text-brand-navy-950">
                   {locale === 'id'
                     ? 'Jarak yang dekat dengan Pelabuhan Rembang secara signifikan mengurangi biaya transportasi baik untuk bahan baku yang masuk maupun pengiriman ekspor keluar.'
-                    : 'The close proximity to Rembang Port significantly reduces transportation costs for both incoming raw feed and outgoing export shipments.'}
+                    : 'The close proximity to Rembang Port significantly reduces transportation costs for both inbound raw materials and outbound export shipments.'}
                 </p>
               </div>
 

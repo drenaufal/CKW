@@ -21,16 +21,16 @@ export default function OperationsPage() {
       title_id: 'Kapasitas Produksi',
       title_en: 'Production Capacity',
       desc_id: 'Kapasitas produksi mencapai 50.000 Metrik Ton (MT) per bulan untuk menjamin pasokan industri secara stabil.',
-      desc_en: 'Production capacity reaches 50,000 Metric Tons (MT) per month to ensure stable industrial supply.'
+      desc_en: 'Production Capacity: 50,000 Metric Tons per Month.'
     },
     {
       icon: Clock,
       value: '10 Jam',
       unit: locale === 'id' ? '/ Hari (Standar)' : '/ Day (Standard)',
       title_id: 'Jam Operasi Standar',
-      title_en: 'Standard Operating Hours',
+      title_en: 'Standard Operation',
       desc_id: 'Jam operasi standar 10 jam per hari, 24 hari kerja per bulan secara efisien dan konsisten.',
-      desc_en: 'Standard operation of 10 hours per day, 24 working days per month with optimal throughput.'
+      desc_en: 'Standard Operation: 10 hours per day 24 working days per month.'
     },
     {
       icon: Users,
@@ -39,16 +39,16 @@ export default function OperationsPage() {
       title_id: 'Tenaga Kerja',
       title_en: 'Workforce',
       desc_id: 'Didukung sekitar 30 personel teknis dan operasional yang terlatih dan tersertifikasi.',
-      desc_en: 'Supported by approximately 30 trained and certified technical and operational personnel.'
+      desc_en: 'Workforce: Approximately 30 trained personnel.'
     },
     {
       icon: Zap,
       value: '24 Jam',
       unit: locale === 'id' ? '/ 3 Shift Nonstop' : '/ 3 Shifts Nonstop',
       title_id: 'Skalabilitas Produksi',
-      title_en: 'Production Scalability',
+      title_en: 'Full-Scale Operation',
       desc_id: 'Dirancang untuk produksi skala penuh hingga 3 shift per hari (24 jam nonstop) sesuai lonjakan permintaan pasar.',
-      desc_en: 'Engineered for full-scale operations up to 3 shifts per day (24-hour nonstop production) upon market demand surges.'
+      desc_en: 'The plant is also designed for full-scale production and can operate three shifts per day, continuous 24-hour operations based on market demand and customer requirements.'
     }
   ];
 
@@ -58,73 +58,73 @@ export default function OperationsPage() {
       num: '01',
       icon: Layers,
       title_id: 'Sistem Pencucian Silika Modern (Modern Silica Washing Plant)',
-      title_en: 'Modern Silica Washing Plant'
+      title_en: 'Modern silica washing system'
     },
     {
       num: '02',
       icon: Filter,
       title_id: 'Fasilitas Pemurnian Mineral (Beneficiation Plant)',
-      title_en: 'Beneficiation Plant'
+      title_en: 'Purification facilities'
     },
     {
       num: '03',
       icon: Factory,
       title_id: 'Peralatan Pencampur (Industrial Blenders)',
-      title_en: 'Industrial Blenders'
+      title_en: 'Blending equipment'
     },
     {
       num: '04',
       icon: Gauge,
       title_id: 'Peralatan Penyaringan dan Pemisah Ukuran (Screening & Sieving Equipment)',
-      title_en: 'Screening & Sieving Equipment'
+      title_en: 'Screening and sizing equipment'
     },
     {
       num: '05',
       icon: Warehouse,
       title_id: 'Area Penyimpanan Bahan Baku (Raw Material Stockpile Area)',
-      title_en: 'Raw Material Stockpile Area'
+      title_en: 'Raw material storage areas'
     },
     {
       num: '06',
       icon: Warehouse,
       title_id: 'Gudang / Area Penyimpanan Produk Jadi (Finished Goods Storage)',
-      title_en: 'Finished Goods Storage'
+      title_en: 'Finished goods storage'
     },
     {
       num: '07',
       icon: Truck,
       title_id: 'Fasilitas Pemuatan Truk (Truck Loading Bays)',
-      title_en: 'Truck Loading Bays'
+      title_en: 'Truck loading facilities'
     },
     {
       num: '08',
       icon: Coffee,
       title_id: 'Kantin Karyawan',
-      title_en: 'Employee Cafeteria'
+      title_en: 'Employee canteen'
     },
     {
       num: '09',
       icon: Sparkles,
       title_id: 'Ruang Ibadah',
-      title_en: 'Prayer Room'
+      title_en: 'Prayer rooms'
     },
     {
       num: '10',
       icon: ShieldCheck,
       title_id: 'Area Istirahat Staf',
-      title_en: 'Staff Rest Area'
+      title_en: 'Staff rest areas'
     },
     {
       num: '11',
       icon: Building2,
       title_id: 'Kantor Administrasi',
-      title_en: 'Administrative Office'
+      title_en: 'Administrative offices'
     },
     {
       num: '12',
       icon: FlaskConical,
       title_id: 'Fasilitas Pengendalian Mutu (QC Laboratory)',
-      title_en: 'Quality Control Laboratory (QC Lab)'
+      title_en: 'Quality control facilities'
     }
   ];
 
@@ -142,8 +142,8 @@ export default function OperationsPage() {
           </h1>
           <p className="text-neutral-300 max-w-3xl mx-auto text-sm md:text-base leading-relaxed">
             {locale === 'id'
-              ? 'Fasilitas pabrik pengolahan PT. Cempaga Karya Wijaya telah dirancang untuk operasi yang efisien, berkecepatan tinggi, dan dapat ditingkatkan skalanya (scalable).'
-              : 'PT. Cempaga Karya Wijaya processing facilities have been engineered for high-efficiency, high-throughput, and scalable operations.'}
+              ? 'Fasilitas pabrik pengolahan PT. Cempaga Karya Wijaya telah dirancang untuk operasi yang efisien dan dapat diskalakan.'
+              : 'The facility has been designed for efficient and scalable operations.'}
           </p>
         </div>
       </div>
@@ -280,7 +280,7 @@ export default function OperationsPage() {
           <p className="text-neutral-600 text-sm md:text-base leading-relaxed mb-8">
             {locale === 'id'
               ? 'Fasilitas pengolahan ini telah dikembangkan dengan infrastruktur operasional yang lengkap, termasuk:'
-              : 'Our processing facility has been developed with comprehensive operational infrastructure, including:'}
+              : 'The processing facility has been developed with complete operational infrastructure, including:'}
           </p>
 
           {/* Unified 12 Facilities Grid */}
@@ -309,52 +309,80 @@ export default function OperationsPage() {
           </div>
         </div>
 
-        {/* Section 3: Upstream Supply Synergy (Kemitraan Pasokan) */}
-        {/* <div className="bg-brand-navy-950 text-white rounded-3xl p-8 md:p-12 border border-brand-navy-900 relative overflow-hidden shadow-xl mb-12">
+        {/* Section 3: Our Operations & Supply Chain */}
+        <div className="bg-brand-navy-950 text-white rounded-3xl p-8 md:p-12 border border-brand-navy-900 relative overflow-hidden shadow-xl mb-12">
           <div className="absolute top-0 right-0 w-96 h-96 bg-brand-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="grid lg:grid-cols-3 gap-8 items-center relative z-10">
-            <div className="lg:col-span-2 space-y-4">
-              <span className="text-brand-gold-400 font-semibold text-xs uppercase tracking-widest block">
-                {locale === 'id' ? 'Sinergi Pasokan Bahan Baku Terjamin' : 'Guaranteed Feedstock Supply Synergy'}
-              </span>
-              <h3 className="font-display font-bold text-2xl md:text-3xl text-white">
+          <div className="relative z-10 space-y-8">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold-500/20 text-brand-gold-400 text-xs font-semibold mb-3">
+                <Factory size={14} />
+                <span>{locale === 'id' ? 'Operasi Kami' : 'Our Operations'}</span>
+              </div>
+              <h3 className="font-display font-bold text-2xl md:text-3xl text-white mb-3">
                 {locale === 'id' 
-                  ? 'Kemitraan Strategis Pasokan Silika Kalimantan Tengah' 
-                  : 'Strategic Upstream Central Kalimantan Supply Partnership'}
+                  ? 'Tujuan & Proses Pengolahan Pasir Silika' 
+                  : 'Our Operations & Processing Techniques'}
               </h3>
-              <p className="text-neutral-300 text-sm md:text-base leading-relaxed">
+              <p className="text-neutral-300 text-sm md:text-base leading-relaxed max-w-4xl">
                 {locale === 'id'
-                  ? 'PT. Cempaga Karya Wijaya memiliki perjanjian pasokan bahan baku jangka panjang dengan PT. Cempaga Surya Timur di Kalimantan Tengah. Sinergi kepemilikan saham ini menjamin ketersediaan bahan baku pasir silika yang aman, andal, dan berkelanjutan untuk mendukung kapasitas penuh pabrik kami.'
-                  : 'PT. Cempaga Karya Wijaya maintains a long-term feedstock supply agreement with PT. Cempaga Surya Timur in Central Kalimantan. This shared-ownership synergy guarantees an uninterrupted, secure, and sustainable supply of raw silica to power our plant capacity.'}
+                  ? 'Tujuan utama PT. Cempaga Karya Wijaya adalah menghasilkan produk pasir silika yang konsisten dan berkualitas tinggi melalui teknik pengolahan yang canggih.'
+                  : 'The primary objective of PT. Cempaga Karya Wijaya is to produce consistent, high-quality silica sand products through advanced processing techniques.'}
               </p>
-              <div className="flex flex-wrap gap-4 pt-2">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-300 bg-brand-navy-900 px-3 py-1.5 rounded-lg border border-brand-navy-800">
-                  <CheckCircle2 size={14} className="text-brand-gold-400" /> Pasokan Jangka Panjang
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-300 bg-brand-navy-900 px-3 py-1.5 rounded-lg border border-brand-navy-800">
-                  <CheckCircle2 size={14} className="text-brand-gold-400" /> Pengiriman Tongkang Terjadwal
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-300 bg-brand-navy-900 px-3 py-1.5 rounded-lg border border-brand-navy-800">
-                  <CheckCircle2 size={14} className="text-brand-gold-400" /> Jaminan Bebas Hambatan Pasokan
-                </span>
+            </div>
+
+            <div>
+              <h4 className="font-display font-semibold text-lg text-brand-gold-400 mb-4">
+                {locale === 'id' ? 'Rangkaian proses kami meliputi:' : 'Our process includes:'}
+              </h4>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  {
+                    id: 'Pencampuran pasir silika premium asal Kalimantan Tengah dengan pasir silika lokal pilihan dari wilayah Rembang.',
+                    en: 'Blending premium silica sand sourced from Central Kalimantan with selected local silica sand from the Rembang region.'
+                  },
+                  {
+                    id: 'Pencucian untuk menghilangkan kotoran dan lempung.',
+                    en: 'Washing to remove impurities.'
+                  },
+                  {
+                    id: 'Pemurnian untuk mencapai kualitas silika yang lebih tinggi.',
+                    en: 'Purification to achieve higher silica quality.'
+                  },
+                  {
+                    id: 'Pemisahan ukuran dan pemilahan (grading) presisi sesuai spesifikasi pelanggan.',
+                    en: 'Precise sizing and grading according to customer specifications.'
+                  },
+                  {
+                    id: 'Pengendalian mutu (quality control) di setiap tahap produksi.',
+                    en: 'Quality control throughout every stage of production.'
+                  },
+                  {
+                    id: 'Pengiriman produk jadi langsung kepada pelanggan.',
+                    en: 'Delivery of finished products directly to customers.'
+                  }
+                ].map((step, idx) => (
+                  <div key={idx} className="bg-brand-navy-900/80 border border-brand-navy-800 p-4 rounded-xl flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-brand-gold-400 shrink-0 mt-0.5" />
+                    <span className="text-xs md:text-sm text-neutral-300 leading-relaxed">
+                      {locale === 'id' ? step.id : step.en}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
-              <Link 
-                href="/products" 
-                className="px-6 py-3.5 bg-brand-gold-500 hover:bg-brand-gold-400 text-brand-navy-950 font-bold rounded-xl text-center text-sm transition-colors shadow"
-              >
-                {locale === 'id' ? 'Lihat Spesifikasi Produk' : 'View Product Specs'}
-              </Link>
-              <Link 
-                href="/contact" 
-                className="px-6 py-3.5 bg-brand-navy-900 hover:bg-brand-navy-800 text-white border border-brand-navy-700 font-semibold rounded-xl text-center text-sm transition-colors"
-              >
-                {locale === 'id' ? 'Jadwalkan Kunjungan Pabrik' : 'Schedule Plant Visit'}
-              </Link>
+
+            <div className="pt-6 border-t border-brand-navy-800/80 bg-brand-navy-900/50 p-6 rounded-2xl border">
+              <span className="text-xs font-bold text-brand-gold-400 uppercase tracking-wider block mb-2">
+                {locale === 'id' ? 'Kemitraan Bahan Baku Terjamin' : 'Raw Material Supply Agreement'}
+              </span>
+              <p className="text-neutral-300 text-sm md:text-base leading-relaxed">
+                {locale === 'id'
+                  ? 'Perusahaan mempertahankan perjanjian pasokan bahan baku jangka panjang dengan PT. Cempaga Surya Timur, sebuah perusahaan penambangan pasir silika terkemuka di Kalimantan Tengah. Pemilik PT. Cempaga Surya Timur juga merupakan pemegang saham di PT. Cempaga Karya Wijaya, memastikan akses yang aman, andal, dan berkelanjutan terhadap sumber daya pasir silika premium.'
+                  : 'The company maintains a long-term raw material supply agreement with PT. Cempaga Surya Timur, a reputable silica sand mining company in Central Kalimantan. The owners of PT. Cempaga Surya Timur are also shareholders in PT. Cempaga Karya Wijaya, ensuring secure, reliable, and sustainable access to premium silica sand resources.'}
+              </p>
             </div>
           </div>
-        </div> */}
+        </div>
 
       </div>
     </div>

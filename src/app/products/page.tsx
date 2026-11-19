@@ -144,7 +144,7 @@ Inquiry & Sales: sales@cempagakaryawijaya.com | +62 536 4230046
                   </div>
 
                   {/* Dual Action Buttons */}
-                  <div className="grid grid-cols-2 gap-3 pt-2">
+                  {/* <div className="grid grid-cols-2 gap-3 pt-2">
                     <button 
                       onClick={() => setSelectedProduct(product)}
                       className="px-3 py-2.5 bg-brand-blue-50 hover:bg-brand-blue-100 text-brand-blue-700 font-semibold rounded-xl text-xs transition-colors text-center"
@@ -157,7 +157,7 @@ Inquiry & Sales: sales@cempagakaryawijaya.com | +62 536 4230046
                     >
                       {locale === 'id' ? 'Minta RFQ' : 'Request RFQ'}
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}
