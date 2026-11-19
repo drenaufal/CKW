@@ -40,8 +40,10 @@ export default function Navbar() {
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-11 h-11 md:w-13 md:h-13 bg-white rounded-full flex items-center justify-center p-1 border-2 border-brand-gold-500 overflow-hidden shrink-0">
-                <img src="/logo.jpeg" alt="CKW Logo" className="w-full h-full object-contain rounded-full" />
+              {/* <div className="w-11 h-11 md:w-13 md:h-13 bg-white rounded-full flex items-center justify-center p-1 border-2 border-brand-gold-500 overflow-hidden shrink-0"> */}
+              <div className="w-11 h-11 md:w-23 md:h-23  rounded-full flex items-center justify-center p-1 overflow-hidden shrink-0">
+                {/* <img src="/logo.png" alt="CKW Logo" className="w-full h-full object-contain rounded-full" /> */}
+                <img src="/logo.png" alt="CKW Logo"  />
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-bold text-white text-base md:text-lg tracking-tight group-hover:text-brand-gold-400 transition-colors">
